@@ -24,6 +24,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.R;
@@ -39,10 +40,12 @@ import org.catrobat.paintroid.ui.Perspective;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+@RunWith(AndroidJUnit4.class)
 public class StampToolIntegrationTest extends BaseIntegrationTestClass {
 
 	private static final int Y_CLICK_OFFSET = 25;
@@ -63,7 +66,7 @@ public class StampToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 		selectTool(ToolType.BRUSH);
 		resetColorPicker();
@@ -71,7 +74,7 @@ public class StampToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@After
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		Thread.sleep(1500);
 		super.tearDown();
 		Thread.sleep(1000);
@@ -253,6 +256,7 @@ public class StampToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testCopyToastIsShown() throws NoSuchFieldException, IllegalAccessException {
 		selectTool(ToolType.STAMP);
 		clickInBox(false);

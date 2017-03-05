@@ -24,6 +24,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -39,9 +40,12 @@ import org.catrobat.paintroid.tools.implementation.BaseTool;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+@RunWith(AndroidJUnit4.class)
 public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 
 	public EraserToolIntegrationTest() throws Exception {
@@ -50,11 +54,12 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 
 	}
 
+	@Test
 	public void testEraseNothing() {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
 
@@ -74,6 +79,7 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Pixel should still be transparent", Color.TRANSPARENT, colorAfterErase);
 	}
 
+	@Test
 	public void testErase() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -96,6 +102,7 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Brushing after erase should be transparent", Color.TRANSPARENT, colorAfterErase);
 	}
 
+	@Test
 	public void testSwitchingBetweenBrushAndEraser() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 
@@ -132,6 +139,7 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("After erasing, pixel should be transparent again", Color.TRANSPARENT, colorAfterErase);
 	}
 
+	@Test
 	public void testChangeEraserBrushSize() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -172,6 +180,7 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Brushing after erase should be transparent", Color.TRANSPARENT, colorAfterErase);
 	}
 
+	@Test
 	public void testChangeEraserBrushForm() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -202,6 +211,7 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Brushing after erase should be transparent", Color.TRANSPARENT, colorAfterErase);
 	}
 
+	@Test
 	public void testRestorePreviousToolSettings() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));

@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,13 @@ import org.catrobat.paintroid.test.utils.PrivateAccess;
 import org.catrobat.paintroid.tools.implementation.BaseTool;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.catrobat.paintroid.ui.TopBar;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+@RunWith(AndroidJUnit4.class)
 public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 
 	protected TopBar mTopBar;
@@ -59,7 +64,8 @@ public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		super.setUp();
 		try {
 			mTopBar = (TopBar) PrivateAccess.getMemberValue(MainActivity.class, getActivity(), "mTopBar");
@@ -74,6 +80,7 @@ public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 		}
 	}
 
+	@Test
 	public void testStandardTabSelected() throws Throwable {
 		int expectedIndexTab = 0;
 
@@ -87,6 +94,7 @@ public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@SuppressLint("NewApi")
+	@Test
 	public void testTabsAreSelectable() throws Throwable {
 		String[] colorChooserTags = { mSolo.getString(R.string.color_pre),mSolo.getString(R.string.color_hsv), mSolo.getString(R.string.color_rgb) };
 
@@ -115,6 +123,7 @@ public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.goBack();
 	}
 
+	@Test
 	public void testColorNewColorButtonChangesStandard() {
 		int numberOfColorsToTest = 20;
 
@@ -157,6 +166,7 @@ public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testColorPickerDialogOnBackPressed() {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
 		openColorChooserDialog();
@@ -177,6 +187,7 @@ public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("After choosing new color, color should not be the same as before", oldColor == newColor);
 	}
 
+	@Test
 	public void testIfRGBSeekBarsDoChangeColor() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 		final int RGB_TAB_INDEX = 2;
@@ -224,6 +235,7 @@ public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testOpenColorPickerOnClickOnColorButton() {
 		mSolo.clickOnView(mButtonTopColor);
 		View tabhost = mSolo.getView(R.id.colorview_tabColors);

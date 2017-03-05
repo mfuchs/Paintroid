@@ -28,14 +28,18 @@ import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
+@RunWith(AndroidJUnit4.class)
 public class RotationToolIntegrationTest extends BaseIntegrationTestClass {
 
 	public RotationToolIntegrationTest() throws Exception {
@@ -44,14 +48,14 @@ public class RotationToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 
 	}
 
 	@Override
 	@After
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		super.tearDown();
 	}
 

@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,7 +25,11 @@ import org.catrobat.paintroid.dialog.colorpicker.ColorPickerDialog;
 import org.catrobat.paintroid.dialog.colorpicker.ColorPickerView;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class LandscapeTest extends BaseIntegrationTestClass {
 
     private final int SCREEN_ORIENTATION_PORTRAIT = 1;
@@ -32,8 +37,9 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
     ImageButton mColorButton;
 
+    @Before
     @Override
-    protected void setUp() {
+    public void setUp() {
         super.setUp();
         selectTool(ToolType.BRUSH);
         resetBrush();
@@ -45,6 +51,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         super();
     }
 
+    @Test
     public void testLandscapeMode() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException {
         setOrienation(SCREEN_ORIENTATION_PORTRAIT);
@@ -52,6 +59,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         assertTrue(!mSolo.getCurrentActivity().isDestroyed());
     }
 
+    @Test
     public void testBottomBarPosition() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
         IllegalAccessException {
 
@@ -75,7 +83,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
     }
 
-
+    @Test
     public void testTopBarPosition() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException{
 
@@ -98,6 +106,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
     }
 
+    @Test
     public void testToolBarOptionWidth() throws  SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException{
 
@@ -120,6 +129,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
     }
 
+    @Test
     public void testToolBarOption() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException{
         ToolType tool = ToolType.PIPETTE;
@@ -129,6 +139,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         assertTrue("Toolbar is not shown", mSolo.getView(R.id.main_tool_options).isShown());
     }
 
+    @Test
     public void testTools() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
     IllegalAccessException {
 
@@ -151,6 +162,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
     }
 
+    @Test
     public void testCorrectSelectionInBothOrientations() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException {
 
@@ -176,6 +188,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         }
     }
 
+    @Test
     public void testNavigationdrawerAppears() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException {
 
@@ -189,6 +202,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         assertTrue("Navigationdrawer is not shown", drawer.isShown());
     }
 
+    @Test
     public void testOpenColorPickerDialogInLandscape() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException {
 
@@ -197,6 +211,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         assertTrue("ColorPickerView is not shown", colorPickerView.isShown());
     }
 
+    @Test
     public void testOpenColorPickerDialogChooseColorInLandscape() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException {
 
@@ -225,6 +240,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         assertEquals("Current chosen color has unexpected color", presetColorButtonColor, currentChosenColor);
     }
 
+    @Test
     public void testColorPickerDialogSwitchTabsInLandscape() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException {
 

@@ -6,10 +6,14 @@ import org.catrobat.paintroid.test.utils.Utils;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.Perspective;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 
+@RunWith(AndroidJUnit4.class)
 public class ScrollingViewIntegrationTest extends BaseIntegrationTestClass {
 
 	private final static int SLEEP_TIME = 1000;
@@ -22,11 +26,12 @@ public class ScrollingViewIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 		selectTool(ToolType.BRUSH);
 	}
 
+	@Test
 	public void testScrollingViewDrawTool() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 
@@ -82,6 +87,7 @@ public class ScrollingViewIntegrationTest extends BaseIntegrationTestClass {
 		dragAndCheckIfCanvasHasMoved(topLeft, middle, true);*/
 	}
 
+	@Test
 	public void testScrollingViewRectTool() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		PaintroidApplication.perspective.setScale(5);
@@ -138,6 +144,7 @@ public class ScrollingViewIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testScrollingViewCursorTool() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 

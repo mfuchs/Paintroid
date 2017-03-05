@@ -21,6 +21,7 @@ package org.catrobat.paintroid.test.integration.dialog;
 
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,10 +39,12 @@ import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+@RunWith(AndroidJUnit4.class)
 public class BrushPickerIntegrationTest extends BaseIntegrationTestClass {
 
 	public BrushPickerIntegrationTest() throws Exception {
@@ -50,14 +53,14 @@ public class BrushPickerIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 		selectTool(ToolType.BRUSH);
 	}
 
 	@Override
 	@After
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		super.tearDown();
 	}
 
@@ -156,6 +159,7 @@ public class BrushPickerIntegrationTest extends BaseIntegrationTestClass {
 				minStrokeWidth);
 	}
 
+	@Test
 	public void testAntiAliasingOffAtBrushSize1() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 		openToolOptionsForCurrentTool(ToolType.BRUSH);

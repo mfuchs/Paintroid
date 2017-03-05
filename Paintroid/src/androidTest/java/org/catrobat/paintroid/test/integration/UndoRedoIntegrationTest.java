@@ -28,14 +28,19 @@ import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.catrobat.paintroid.ui.Perspective;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.ImageButton;
 
+@RunWith(AndroidJUnit4.class)
 public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 
 	private static final String PRIVATE_ACCESS_TRANSLATION_X = "mSurfaceTranslationX";
@@ -46,10 +51,11 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 	}
 
+	@Test
 	public void testDisableEnableUndo() {
 
 		ImageButton undoButton1 = (ImageButton) mSolo.getView(R.id.btn_top_undo);
@@ -75,6 +81,7 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testDisableEnableRedo() {
 
 		ImageButton redoButton1 = (ImageButton) mSolo.getView(R.id.btn_top_redo);
@@ -99,6 +106,7 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testPreserveZoomAndMoveAfterUndo() throws SecurityException, NoSuchFieldException,
 			IllegalAccessException {
 
@@ -145,6 +153,7 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Scale should stay the same after undo", PaintroidApplication.perspective.getScale(), scale);
 	}
 
+	@Test
 	public void testPreserveZoomAndMoveAfterRedo() throws SecurityException, NoSuchFieldException,
 			IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -204,6 +213,7 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Scale should stay the same after undo", PaintroidApplication.perspective.getScale(), scale);
 	}
 
+	@Test
 	public void testUndoProgressDialogIsShowing() {
 		assertTrue("This test does not check progress dialog correctly", false); // TODO: check/write also other progress dialog tests for correct testing!!
 		ImageButton undoButton = (ImageButton) mSolo.getView(R.id.btn_top_undo);
@@ -218,6 +228,7 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("Progress Dialog is still showing", IndeterminateProgressDialog.getInstance().isShowing());
 	}
 
+	@Test
 	public void testRedoProgressDialogIsClosing() {
 		ImageButton undoButton = (ImageButton) mSolo.getView(R.id.btn_top_undo);
 		ImageButton redoButton = (ImageButton) mSolo.getView(R.id.btn_top_redo);

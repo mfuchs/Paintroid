@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.paintroid.MainActivity;
 import org.catrobat.paintroid.NavigationDrawerMenuActivity;
@@ -34,12 +35,17 @@ import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.test.utils.Utils;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+@RunWith(AndroidJUnit4.class)
 public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 
 	private static ArrayList<File> deletionFileList = null;
@@ -50,6 +56,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Override
+	@Before
 	public void setUp() {
 		super.setUp();
 		screenPoint = new PointF(mScreenWidth / 2, mScreenHeight / 2);
@@ -57,6 +64,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Override
+	@After
 	public void tearDown() throws Exception {
 		PaintroidApplication.savedPictureUri = null;
 		PaintroidApplication.isSaved = false;
@@ -69,6 +77,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		super.tearDown();
 	}
 
+	@Test
 	public void testNewEmptyDrawingWithSave() {
 		final int xCoordinatePixel = 0;
 		final int yCoordinatePixel = 0;
@@ -98,6 +107,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Color should be Transparent", Color.TRANSPARENT, bitmapPixelColor);
 	}
 
+	@Test
 	public void testLoadImageDialog() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_SLEEP);
@@ -111,6 +121,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 				mSolo.searchButton(mSolo.getString(R.string.discard_button_text), true));
 	}
 
+	@Test
 	public void testLoadImageDialogOnBackPressed() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_SLEEP);
@@ -123,6 +134,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testWarningDialogOnNewImage() {
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
@@ -142,6 +154,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 				mSolo.searchText(mSolo.getString(R.string.dialog_warning_new_image), 1, true, true));
 	}
 
+	@Test
 	public void testNewEmptyDrawingWithDiscard() {
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
@@ -162,6 +175,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 				PaintroidApplication.drawingSurface.getPixel(Utils.getCanvasPointFromScreenPoint(new PointF(mScreenWidth / 2, mScreenHeight / 2))));
 	}
 
+	@Test
 	public void testNewEmptyDrawingDialogOnBackPressed() {
 		selectTool(ToolType.BRUSH);
 		resetColorPicker();
@@ -184,6 +198,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testSavedStateChangeAfterSave() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_TIMEOUT);
@@ -201,6 +216,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testSaveImage() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_TIMEOUT);
@@ -216,6 +232,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		addUriToDeletionFileList(PaintroidApplication.savedPictureUri);
 	}
 
+	@Test
 	public void testSaveCopy() {
 		assertNull(PaintroidApplication.savedPictureUri);
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
@@ -246,6 +263,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.goBack();
 	}
 
+	@Test
 	public void testSaveLoadedImage() throws URISyntaxException, IOException {
 		final NavigationDrawerMenuActivity activityToTest = new NavigationDrawerMenuActivity() {
 			@Override

@@ -19,6 +19,7 @@
 
 package org.catrobat.paintroid.test.integration;
 
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -31,7 +32,10 @@ import org.catrobat.paintroid.test.utils.PrivateAccess;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.BottomBar;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class ToolSelectionIntegrationTest extends BaseIntegrationTestClass {
 	private static final String PRIVATE_ACCESS_BOTTOM_BAR_NAME = "mBottomBar";
 	private static final String PRIVATE_ACCESS_TOOL_NAME_TOAST_NAME = "mToolNameToast";
@@ -45,12 +49,13 @@ public class ToolSelectionIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 		mToolsLayout = (LinearLayout) getActivity().findViewById(R.id.tools_layout);
 		mScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.bottom_bar_scroll_view);
 	}
 
+	@Test
 	public void testDrawingSurfaceDeactivatedWhenToolOptionsAreShown() {
 		selectTool(ToolType.FILL);
 		openToolOptionsForCurrentTool(ToolType.FILL);
@@ -69,6 +74,7 @@ public class ToolSelectionIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("Tool options should not be displayed", toolOptionsAreShown());
 	}
 
+	@Test
 	public void testToolOptionsDisappearWhenClickedOutside() {
 		selectTool(ToolType.BRUSH);
 		openToolOptionsForCurrentTool(ToolType.BRUSH);
@@ -84,6 +90,7 @@ public class ToolSelectionIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("Tool options should not be displayed", toolOptionsAreShown());
 	}
 
+	@Test
 	public void testCenterSelectedToolButton() {
 		int toolCount = mToolsLayout.getChildCount() - getNumberOfNotVisibleTools();
 		View toolButton = mToolsLayout.getChildAt(toolCount / 2);
@@ -110,6 +117,7 @@ public class ToolSelectionIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("Tool button should be most right", mScrollView.canScrollHorizontally(scrollRight));
 	}
 
+	@Test
 	public void testToolSelectionStartAnimation() {
 		int scrollX = mScrollView.getScrollX();
 		assertTrue("Scroll position should be > 0 at start", scrollX > 0);
@@ -122,6 +130,7 @@ public class ToolSelectionIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Animation should be finished after a second", 0, scrollX);
 	}
 
+	@Test
 	public void testToastShowsRightToolName() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		BottomBar bottomBar = (BottomBar) PrivateAccess.getMemberValue(MainActivity.class, getActivity(),

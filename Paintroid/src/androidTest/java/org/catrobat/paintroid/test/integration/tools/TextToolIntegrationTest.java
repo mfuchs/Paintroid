@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Typeface;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,10 +50,12 @@ import org.catrobat.paintroid.ui.TopBar;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@RunWith(AndroidJUnit4.class)
 public class TextToolIntegrationTest extends BaseIntegrationTestClass {
 	private static final String TEST_TEXT = "testing 123";
 	private static final String TEST_TEXT_MULTILINE = "testing\nmultiline\ntext\n\n123";
@@ -84,13 +87,13 @@ public class TextToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 	}
 
 	@Override
 	@After
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		super.tearDown();
 	}
 

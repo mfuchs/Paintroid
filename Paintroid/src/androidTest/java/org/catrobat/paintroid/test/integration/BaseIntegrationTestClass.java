@@ -26,6 +26,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.support.test.InstrumentationRegistry;
 import android.support.v4.widget.DrawerLayout;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -92,12 +93,14 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		int setup = 0;
 		try {
 			Log.d("Paintroid test", "setup" + setup++);
 			super.setUp();
 			Log.d("Paintroid test", "setup" + setup++);
+			injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+			setActivityInitialTouchMode(false);
 			mTestCaseWithActivityFinished = false;
 			Log.d("Paintroid test", "setup" + setup++);
 			mSolo = new Solo(getInstrumentation(), getActivity());
@@ -143,7 +146,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 	@Override
 	@After
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		int step = 0;
 		Log.i(PaintroidApplication.TAG, "td " + step++);
 

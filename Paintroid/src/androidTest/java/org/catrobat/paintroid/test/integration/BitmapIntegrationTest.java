@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.Display;
 
 import com.robotium.solo.Solo;
@@ -38,7 +39,9 @@ import org.catrobat.paintroid.tools.Layer;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.After;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class BitmapIntegrationTest extends BaseIntegrationTestClass {
 
 	public BitmapIntegrationTest() throws Exception {
@@ -89,6 +92,7 @@ public class BitmapIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testDrawingSurfaceBitmapIsScreenSize() {
 		float bitmapHeight = PaintroidApplication.drawingSurface.getBitmapHeight();
 		float bitmapWidth = PaintroidApplication.drawingSurface.getBitmapWidth();
