@@ -21,6 +21,7 @@ package org.catrobat.paintroid.test.integration.tools;
 
 import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.Button;
 import android.widget.TableRow;
 
@@ -37,7 +38,9 @@ import org.catrobat.paintroid.tools.implementation.BaseToolWithShape;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 
 	private static final String PRIVATE_ACCESS_STATUSBAR_NAME = "mTopBar";
@@ -53,7 +56,7 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp(){
+	public void setUp(){
 		super.setUp();
 		resetColorPicker();
 	}
@@ -200,6 +203,7 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	/*
+	@Test
 	public void testFilledRectIsDrawnOnBitmap() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 

@@ -1,8 +1,12 @@
 package org.catrobat.paintroid.test.integration.tools;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import org.catrobat.paintroid.test.integration.BaseIntegrationTestClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class ImportPngToolTest extends BaseIntegrationTestClass {
 
 	private static String FAILING_FILE_NAME = "thisisnofile";

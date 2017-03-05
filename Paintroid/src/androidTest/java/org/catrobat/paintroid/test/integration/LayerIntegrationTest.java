@@ -22,6 +22,7 @@ package org.catrobat.paintroid.test.integration;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.media.Image;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -31,7 +32,11 @@ import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.test.utils.Utils;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class LayerIntegrationTest extends BaseIntegrationTestClass {
 
 	private static final String NEW_LAYER = "New Layer";
@@ -50,12 +55,14 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		super();
 	}
 
+	@Test
 	public void testShowLayerMenu() {
 		mSolo.clickOnView(mButtonTopLayer);
 		assertTrue("Layers dialog not visible",
 				mSolo.waitForText(mSolo.getString(R.string.layers_title), 1, TIMEOUT, true));
 	}
 
+	@Test
 	public void testAddOneLayer() {
 		mSolo.clickOnView(mButtonTopLayer);
 		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
@@ -64,6 +71,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue("New Layer not visible", mSolo.searchText(LAYER_ONE));
 	}
 
+	@Test
 	public void testDeleteEmptyLayer() {
 		mSolo.clickOnView(mButtonTopLayer);
 		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
@@ -74,6 +82,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("New Layer should be deleted", mSolo.searchText(LAYER_ONE));
 	}
 
+	@Test
 	public void testDeleteFilledLayer() {
 		PointF checkScreenPoint = new PointF(mScreenWidth / 2, mScreenHeight / 3);
 		PointF checkCanvasPoint = Utils.getCanvasPointFromScreenPoint(checkScreenPoint);
@@ -95,6 +104,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testSwitchBetweenFilledLayers() {
 		PointF leftPointOnScreen = new PointF(20, mScreenHeight / 2);
 		PointF rightPointOnScreen = new PointF(mScreenWidth - 20, mScreenHeight / 2);
@@ -124,6 +134,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue("Bitmap should show both layer", colorUpperSide == colorLowerSide);
 	}
 
+	@Test
 	public void testTryDeleteOnlyLayer() {
 		mSolo.clickOnView(mButtonTopLayer);
 		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
@@ -131,6 +142,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue("Layer 0 shouldn't be deleted", mSolo.searchText(LAYER_ZERO));
 	}
 
+	@Test
 	public void testMergeTwoEmptyLayers() {
 		mSolo.clickOnView(mButtonTopLayer);
 		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
@@ -141,6 +153,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue("Merge two Layers didn't work", mSolo.searchText(LAYER_TWO));
 	}
 
+	@Test
 	public void testMergeTwoFilledLayers() {
 		PointF leftPointOnScreen = new PointF(10, mScreenHeight / 2);
 		PointF rightPointOnScreen = new PointF(mScreenWidth - 10, mScreenHeight / 2);
@@ -175,6 +188,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Pixel color should be the same.", colorLayerZero, colorLayerOne);
 	}
 
+	@Test
 	public void testRenameLayer() {
 		String newName = "New Layer Name";
 		mSolo.clickOnView(mButtonTopLayer);
@@ -187,6 +201,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue("Rename Layer didn't work", mSolo.searchText(newName));
 	}
 
+	@Test
 	public void testRenameMergedLayer() {
 		String newName = "Merged Layer";
 		mSolo.clickOnView(mButtonTopLayer);
@@ -202,6 +217,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue("Rename Layer didn't work", mSolo.searchText(newName));
 	}
 
+	@Test
 	public void testLockLayer() {
 		PointF checkScreenPoint = new PointF(mScreenWidth / 2, mScreenHeight / 5);
 		PointF checkCanvasPoint = Utils.getCanvasPointFromScreenPoint(checkScreenPoint);
@@ -219,6 +235,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testSetLayerInvisible() {
 		PointF checkScreenPoint = new PointF(mScreenWidth / 2, mScreenHeight / 5);
 		PointF checkCanvasPoint = Utils.getCanvasPointFromScreenPoint(checkScreenPoint);
@@ -235,6 +252,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testLockLayerSetInvisible() {
 		mSolo.clickOnView(mButtonTopLayer);
 		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
@@ -250,6 +268,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 
+	@Test
 	public void testTrySetMoreLayersThanLimit() {
 
 		mSolo.clickOnView(mButtonTopLayer);
@@ -265,6 +284,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("Should be max 7 Layers", mSolo.searchText(LAYER_SEVEN));
 	}
 
+	@Test
 	public void testMultipleLayersNewImageDiscardOld() {
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);
 		mSolo.clickOnView(mButtonTopLayer);
@@ -285,6 +305,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 				mSolo.waitForText(mSolo.getString(R.string.layers_title), 1, TIMEOUT, true));
 	}
 
+	@Test
 	public void testMultipleLayersNewImageSaveOld() {
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);
 		mSolo.clickOnView(mButtonTopLayer);
@@ -305,6 +326,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 				mSolo.waitForText(mSolo.getString(R.string.layers_title), 1, TIMEOUT, true));
 	}
 
+	@Test
 	public void testOpacityChange() {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
 		mSolo.sleep(30);

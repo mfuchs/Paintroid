@@ -4,14 +4,20 @@ import java.io.File;
 
 import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.R;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Environment;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.robotium.solo.Solo;
 
+@RunWith(AndroidJUnit4.class)
 public class ActivityOpenedFromPocketCodeNewImageTest extends BaseIntegrationTestClass {
 
 	private File imageFile = null;
@@ -22,6 +28,7 @@ public class ActivityOpenedFromPocketCodeNewImageTest extends BaseIntegrationTes
 	}
 
 	@Override
+	@Before
 	public void setUp() {
 		Intent extras = new Intent();
 
@@ -33,6 +40,7 @@ public class ActivityOpenedFromPocketCodeNewImageTest extends BaseIntegrationTes
 	}
 
 	@Override
+	@After
 	public void tearDown() throws Exception {
 		PaintroidApplication.savedPictureUri = null;
 		PaintroidApplication.isSaved = false;

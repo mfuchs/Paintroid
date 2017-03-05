@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.FlakyTest;
 import android.util.Log;
 import android.view.Display;
@@ -42,9 +43,11 @@ import org.catrobat.paintroid.tools.implementation.TransformTool;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-
+@RunWith(AndroidJUnit4.class)
 public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 	private static final String TOOL_MEMBER_WIDTH = "mBoxWidth";
@@ -73,7 +76,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 		mLineLength = (mCurrentDrawingSurfaceBitmap.getWidth() / 2);
 		PaintroidApplication.perspective.setScale(1.0f);
@@ -82,7 +85,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@After
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		// eat all toasts
 		final int resizeToastSleepingTime = 100;
 		for (int resizeToastTimeoutCounter = 0; resizeToastSleepingTime * resizeToastTimeoutCounter < TIMEOUT; resizeToastTimeoutCounter++) {
@@ -216,6 +219,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@FlakyTest(tolerance = 3)
+	@Test
 	public void testIfMultiplePixelAreFound() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -240,6 +244,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@FlakyTest(tolerance = 3)
+	@Test
 	public void testIfDrawingSurfaceBoundsAreFoundAndNotCropped() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -260,6 +265,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@FlakyTest(tolerance = 4)
+	@Test
 	public void testIfClickOnCanvasCrops() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		scaleDownTestBitmap();
@@ -473,6 +479,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 				&& (bottomRightScreenPoint.y > centerOfScreen.y));
 	}
 
+	@Test
 	public void testIfBordersAreAlignedCorrectAfterCrop() throws SecurityException, IllegalArgumentException,
 			InterruptedException, NoSuchFieldException, IllegalAccessException {
 		scaleDownTestBitmap();
@@ -492,6 +499,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@FlakyTest(tolerance = 4)
+	@Test
 	public void testMoveLeftCroppingBorderAndDoCrop() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -518,6 +526,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		}
 	}
 
+	@Test
 	public void testMoveTopCroppingBorderAndDoCrop() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -544,6 +553,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		}
 	}
 
+	@Test
 	public void testMoveRightCroppingBorderAndDoCrop() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -570,6 +580,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		}
 	}
 
+	@Test
 	public void testMoveBottomCroppingBorderAndDoCrop() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -596,6 +607,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		}
 	}
 
+	@Test
 	public void testCropFromEverySideOnFilledBitmap() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -701,6 +713,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testResizeBordersMatchBitmapBordersAfterCrop() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -731,6 +744,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@FlakyTest(tolerance = 3)
+	@Test
 	public void testNoMaximumBorderRatio() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		selectTool(ToolType.TRANSFORM);
@@ -779,6 +793,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testPreventTooLargeBitmaps() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -815,6 +830,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("Bitmap should not got larger", bitmapSize > maxBitmapSize);
 	}
 
+	@Test
 	public void testMaxImageResolutionTextIsShown() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -848,6 +864,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("Bitmap should not get larger than max bitmap size", bitmapSize > maxBitmapSize);
 	}
 
+	@Test
 	public void testEnlargeEverySideAndCheckEnlargedColor() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -934,6 +951,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testResizeWithPartialOverlapping() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -973,6 +991,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testResizeBoxCompletelyOutsideBitmap() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException, InterruptedException {
 		scaleDownTestBitmap();
@@ -992,6 +1011,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testResizeUndoRedoOpenLayermenu() throws NoSuchFieldException, IllegalAccessException{
 
 		mSolo.clickOnView(mButtonTopLayer);

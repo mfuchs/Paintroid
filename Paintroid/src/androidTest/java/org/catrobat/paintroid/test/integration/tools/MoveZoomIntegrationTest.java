@@ -29,17 +29,20 @@ import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.catrobat.paintroid.ui.Perspective;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 
+@RunWith(AndroidJUnit4.class)
 public class MoveZoomIntegrationTest extends BaseIntegrationTestClass {
 	private static final String DRAWINGSURFACE_MEMBER_BITMAP = "mWorkingBitmap";
 

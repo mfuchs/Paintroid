@@ -19,21 +19,28 @@
 
 package org.catrobat.paintroid.test.integration;
 
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 
 import com.robotium.solo.Solo;
 
 import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.DrawingSurface;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 
 	public MainActivityIntegrationTest() throws Exception {
 		super();
 	}
 
+	@Test
 	public void testMenuTermsOfUseAndService() {
 
 		String buttonTermsOfUseAndService = getActivity().getString(R.string.menu_terms_of_use_and_service);
@@ -49,6 +56,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.goBack();
 	}
 
+	@Test
 	public void testMenuAbout() {
 
 		String buttonAbout = getActivity().getString(R.string.menu_about);
@@ -65,43 +73,53 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.goBack();
 	}
 
+	@Test
 	public void testHelpDialogForBrush() {
 		toolHelpTest(ToolType.BRUSH, R.string.help_content_brush);
 	}
 
+	@Test
 	public void testHelpDialogForCursor() {
 		toolHelpTest(ToolType.CURSOR, R.string.help_content_cursor);
 	}
 
+	@Test
 	public void testHelpDialogForPipette() {
 		toolHelpTest(ToolType.PIPETTE, R.string.help_content_eyedropper);
 	}
 
+	@Test
 	public void testHelpDialogForStamp() {
 		toolHelpTest(ToolType.STAMP, R.string.help_content_stamp);
 	}
 
+	@Test
 	public void testHelpDialogForBucket() {
 		toolHelpTest(ToolType.FILL, R.string.help_content_fill);
 	}
 
+	@Test
 	public void testHelpDialogForShape() {
 		toolHelpTest(ToolType.SHAPE, R.string.help_content_shape);
 	}
 
+	@Test
 	public void testHelpDialogForTransform() {
 		toolHelpTest(ToolType.TRANSFORM, R.string.help_content_transform);
 	}
 
+	@Test
 	public void testHelpDialogForEraser() {
 		toolHelpTest(ToolType.ERASER, R.string.help_content_eraser);
 	}
 
+	@Test
 	public void testHelpDialogForImportImage() {
 		toolHelpTest(ToolType.IMPORTPNG, R.string.help_content_import_png);
 	}
 
 
+	@Test
 	public void testHelpDialogForText() {
 		toolHelpTest(ToolType.TEXT, R.string.help_content_text);
 	}

@@ -27,12 +27,16 @@ import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.test.utils.PrivateAccess;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.ui.TopBar;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@RunWith(AndroidJUnit4.class)
 public class StatusbarIntegrationTest extends BaseIntegrationTestClass {
 
 	private static final String PRIVATE_ACCESS_STATUSBAR_NAME = "mTopBar";
@@ -42,6 +46,7 @@ public class StatusbarIntegrationTest extends BaseIntegrationTestClass {
 		super();
 	}
 
+	@Test
 	public void testAllButtonsAreVisible() {
 		ArrayList<Integer> expectedButtons = new ArrayList<Integer>();
 		expectedButtons.add(R.id.btn_top_undo);

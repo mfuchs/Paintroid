@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.LinearLayout;
 
 import org.catrobat.paintroid.PaintroidApplication;
@@ -33,8 +34,12 @@ import org.catrobat.paintroid.test.utils.Utils;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.tools.implementation.BaseTool;
 import org.catrobat.paintroid.ui.DrawingSurface;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class LineToolIntegrationTest extends BaseIntegrationTestClass {
 
 	protected static final int HALF_LINE_LENGTH = 25;
@@ -46,16 +51,19 @@ public class LineToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 		selectTool(ToolType.BRUSH);
 		resetColorPicker();
 	}
 
-    protected void tearDown() throws Exception {
+	@Override
+	@After
+    public void tearDown() throws Exception {
         super.tearDown();
     }
 
+	@Test
 	public void testVerticalLineColor()  {
 
 		// TODO: Refactor tests (lot of copy paste code...)
@@ -85,6 +93,7 @@ public class LineToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testHorizontalLineColor()  {
 		selectTool(ToolType.LINE);
 		mSolo.waitForDialogToClose(TIMEOUT);
@@ -110,6 +119,7 @@ public class LineToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testDiagonaleLineColor() {
 		selectTool(ToolType.LINE);
 		mSolo.waitForDialogToClose(TIMEOUT);
@@ -134,6 +144,7 @@ public class LineToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testChangeLineToolForm() throws NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
 

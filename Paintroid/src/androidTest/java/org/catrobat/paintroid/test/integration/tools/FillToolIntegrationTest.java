@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.net.Uri;
+import android.support.test.runner.AndroidJUnit4;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,9 +40,13 @@ import org.catrobat.paintroid.tools.implementation.BaseTool;
 import org.catrobat.paintroid.tools.implementation.FillTool;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
+@RunWith(AndroidJUnit4.class)
 public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 
 	public FillToolIntegrationTest() throws Exception {
@@ -50,12 +55,13 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 		selectTool(ToolType.BRUSH);
 		resetBrush();
 	}
 
+	@Test
 	public void testFloodFillIfImageLoaded() throws InterruptedException, SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -84,6 +90,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testNoFloodFillIfEmpty() throws InterruptedException, SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -103,6 +110,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Pixel color should be the same", colorToFill, colorAfterFill);
 	}
 
+	@Test
 	public void testBitmapIsFilled() throws InterruptedException, SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -124,6 +132,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("Pixel color should be the same", colorToFill, colorAfterFill);
 	}
 
+	@Test
 	public void testNothingHappensWhenClickedOutsideDrawingArea() throws InterruptedException, SecurityException,
 			IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -148,6 +157,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		assertFalse("Pixel color should not be the same", (colorToFill == colorAfterFill));
 	}
 
+	@Test
 	public void testOnlyFillInnerArea() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 
@@ -203,6 +213,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		assertNotSame("Pixel color should be different", colorToFill, outsideColorAfterFill);
 	}
 
+	@Test
 	public void testFillToolOptionsDialog() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		selectTool(ToolType.FILL);
@@ -235,6 +246,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		closeToolOptionsForCurrentTool();
 	}
 
+	@Test
 	public void testFillToolDialogAfterToolSwitch() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		selectTool(ToolType.FILL);
@@ -261,6 +273,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 
 	}
 
+	@Test
 	public void testFillToolToleranceCursorVisibility() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		selectTool(ToolType.FILL);
@@ -287,6 +300,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		closeToolOptionsForCurrentTool();
 	}
 
+	@Test
 	public void testFillToolUndoRedoWithTolerance() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 

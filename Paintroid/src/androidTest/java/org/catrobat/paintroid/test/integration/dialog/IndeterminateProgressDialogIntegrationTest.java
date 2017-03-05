@@ -23,11 +23,15 @@ import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.dialog.IndeterminateProgressDialog;
 import org.catrobat.paintroid.test.integration.BaseIntegrationTestClass;
 import org.catrobat.paintroid.tools.ToolType;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.FlakyTest;
 
+@RunWith(AndroidJUnit4.class)
 public class IndeterminateProgressDialogIntegrationTest extends BaseIntegrationTestClass {
 
 	public IndeterminateProgressDialogIntegrationTest() throws Exception {
@@ -36,6 +40,7 @@ public class IndeterminateProgressDialogIntegrationTest extends BaseIntegrationT
 	}
 
     @FlakyTest(tolerance = 3)
+    @Test
     public void testDialogIsNotCancelable() throws Throwable {
 
         PointF point = new PointF(mCurrentDrawingSurfaceBitmap.getWidth() / 4, mCurrentDrawingSurfaceBitmap.getHeight() / 4);

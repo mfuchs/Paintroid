@@ -21,6 +21,7 @@ package org.catrobat.paintroid.test.integration.tools;
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import org.catrobat.paintroid.PaintroidApplication;
@@ -28,7 +29,11 @@ import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.test.integration.BaseIntegrationTestClass;
 import org.catrobat.paintroid.tools.ToolType;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 public class FlipToolIntegrationTest extends BaseIntegrationTestClass {
 
 	private static final int OFFSET = 150;
@@ -39,11 +44,12 @@ public class FlipToolIntegrationTest extends BaseIntegrationTestClass {
 
 	@Override
 	@Before
-	protected void setUp() {
+	public void setUp() {
 		super.setUp();
 		resetBrush();
 	}
 
+	@Test
 	public void testHorizontalFlip() {
 		int xPoint = mScreenWidth / 2;
 		int yPoint = OFFSET;
@@ -60,6 +66,7 @@ public class FlipToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("pixel should be black", Color.BLACK, pixel);
 	}
 
+	@Test
 	public void testVerticalFlip() {
 		int xPoint = OFFSET;
 		int yPoint = mScreenHeight / 2;
@@ -78,6 +85,7 @@ public class FlipToolIntegrationTest extends BaseIntegrationTestClass {
 		assertEquals("pixel should be black", Color.BLACK, pixelColor);
 	}
 
+	@Test
 	public void testFlipUndoOpenLayermenu() {
 
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);

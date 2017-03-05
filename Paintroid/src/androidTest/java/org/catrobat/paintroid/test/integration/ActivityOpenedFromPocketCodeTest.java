@@ -7,16 +7,22 @@ import java.io.OutputStream;
 
 import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.R;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.PointF;
 import android.os.Environment;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.robotium.solo.Solo;
 
+@RunWith(AndroidJUnit4.class)
 public class ActivityOpenedFromPocketCodeTest extends BaseIntegrationTestClass {
 
 	private File imageFile = null;
@@ -26,6 +32,7 @@ public class ActivityOpenedFromPocketCodeTest extends BaseIntegrationTestClass {
 	}
 
 	@Override
+	@Before
 	public void setUp() {
 		Intent extras = new Intent();
 		imageFile = createImageFile("testFile");
@@ -37,6 +44,7 @@ public class ActivityOpenedFromPocketCodeTest extends BaseIntegrationTestClass {
 	}
 
 	@Override
+	@After
 	public void tearDown() throws Exception {
 		PaintroidApplication.savedPictureUri = null;
 		PaintroidApplication.isSaved = false;
@@ -88,6 +96,7 @@ public class ActivityOpenedFromPocketCodeTest extends BaseIntegrationTestClass {
 		assertEquals(imageFile.length(), fileSizeBefore);
 	}
 
+	@Test
 	public void testBackToPocketCode() {
 		PaintroidApplication.isSaved = false;
 		PointF pointOnScreen = new PointF(mScreenWidth / 2, mScreenHeight / 2);
