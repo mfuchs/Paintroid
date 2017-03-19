@@ -43,6 +43,7 @@ import org.catrobat.paintroid.tools.implementation.BaseTool;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -99,6 +100,7 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@Ignore
 	public void testSwitchingBetweenBrushAndEraser() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 
