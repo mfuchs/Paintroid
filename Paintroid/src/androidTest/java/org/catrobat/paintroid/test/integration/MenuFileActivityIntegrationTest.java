@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.test.FlakyTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.paintroid.MainActivity;
@@ -179,6 +180,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@FlakyTest(tolerance = 3)
 	public void testNewEmptyDrawingDialogOnBackPressed() {
 		selectTool(ToolType.BRUSH);
 		resetColorPicker();
