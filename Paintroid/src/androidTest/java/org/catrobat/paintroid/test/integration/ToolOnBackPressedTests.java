@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.FlakyTest;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -131,6 +132,7 @@ public class ToolOnBackPressedTests extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@FlakyTest(tolerance = 3)
 	public void testToolOptionsDisappearWhenBackPressed() {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
 		selectTool(ToolType.CURSOR);
