@@ -29,7 +29,10 @@ android {
 
         androidTest {
             if (file('../testexclusions.txt').exists()) {
+                println('### EXCLUDING: ' + file('../testexclusions.txt').readLines())
                 java.exclude file('../testexclusions.txt').readLines()
+            } else {
+                println("### nothing to exclude")
             }
         }
     }
