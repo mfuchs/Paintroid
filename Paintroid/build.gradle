@@ -28,11 +28,15 @@ android {
         }
 
         androidTest {
-            println("#### does file testexclusions.txt exist in parent of '.'? " + file('.').absolutePath + " " + file('../testexclusions.txt').exists())
-            println(fileTree("..").filter { it.isFile() }.files.path)
-            if (file('../testexclusions.txt').exists()) {
-                println('### EXCLUDING: ' + file('../testexclusions.txt').readLines())
-                java.exclude file('../testexclusions.txt').readLines()
+            def exclusionFile = file('../testexclusions.txt')
+            def inclusionFile = file('../testinclusions.txt')
+            println("#### does file testexclusions.txt exist in parent of '.'? " + file('.').absolutePath + " " + exclusionFile.exists() + " " + inclusionFile.exists())
+            if (exclusionFile.exists()) {
+                println('### EXCLUDING: ' + exclusionFile.readLines())
+                java.exclude exclusionFile.readLines()
+            } else if (inclusionFile.exists()) {
+                println('### INCLUDING: ' + inclusionFile.readLines())
+                java.include inclusionFile.readLines()
             } else {
                 println("### nothing to exclude")
             }
