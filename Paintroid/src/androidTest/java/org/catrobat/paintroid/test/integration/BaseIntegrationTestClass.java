@@ -42,6 +42,7 @@ import android.widget.TableRow;
 
 import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
+import com.robotium.solo.Timeout;
 
 import org.catrobat.paintroid.MainActivity;
 import org.catrobat.paintroid.NavigationDrawerMenuActivity;
@@ -96,6 +97,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	public void setUp() {
 		int setup = 0;
 		try {
+			Timeout.setSmallTimeout(TIMEOUT); // TODO have a multiplier that is used when running on Jenkins!!! maybe via -pjenkins or something!
 			Log.d("Paintroid test", "setup" + setup++);
 			super.setUp();
 			Log.d("Paintroid test", "setup" + setup++);
@@ -221,7 +223,6 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		Button colorButton = mSolo.getButton(16);
 		assertTrue(colorButton.getParent() instanceof TableRow);
 		mSolo.clickOnButton(16);
-		mSolo.sleep(50);
 		mSolo.clickOnButton(getActivity().getResources().getString(R.string.done));
 	}
 

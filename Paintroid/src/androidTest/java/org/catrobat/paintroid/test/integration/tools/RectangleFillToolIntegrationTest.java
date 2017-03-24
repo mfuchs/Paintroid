@@ -64,7 +64,6 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@FlakyTest(tolerance = 3)
 	public void testFilledRectIsCreated() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		selectTool(ToolType.SHAPE);
@@ -92,7 +91,7 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 		selectTool(ToolType.SHAPE);
 
 		mSolo.clickOnView(mSolo.getView(R.id.shapes_circle_btn));
-		mSolo.sleep(50);
+		mSolo.sleep(50); // TODO
 
 		Tool ellipseTool = getCurrentTool();
 		PointF centerPointTool = (PointF) PrivateAccess.getMemberValue(BaseToolWithShape.class, ellipseTool,
@@ -106,9 +105,9 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.clickOnScreen(centerPointTool.x - 1, centerPointTool.y - 1);
 
 
-		mSolo.sleep(50);
+		mSolo.sleep(50); // TODO
 		mSolo.goBack();
-		mSolo.sleep(50);
+		mSolo.sleep(50); // TODO
 
 		int colorPickerColor = getCurrentTool().getDrawPaint().getColor();
 
@@ -118,13 +117,13 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 				colorAfterDrawing);
 
 		mSolo.clickOnView(mButtonTopUndo);
-		mSolo.sleep(1000);
+		mSolo.sleep(1000); // TODO
 
 		int colorAfterUndo = PaintroidApplication.drawingSurface.getPixel(pointUnderTest);
 		assertEquals(colorBeforeDrawing, colorAfterUndo);
 
 		mSolo.clickOnView(mButtonTopRedo);
-		mSolo.sleep(1000);
+		mSolo.sleep(1000); // TODO
 
 		int colorAfterRedo = PaintroidApplication.drawingSurface.getPixel(pointUnderTest);
 		assertEquals(colorPickerColor, colorAfterRedo);
@@ -142,7 +141,6 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@FlakyTest(tolerance = 3)
 	public void testRectOnBitmapHasSameColorAsInColorPickerAfterColorChange() throws SecurityException,
 			IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -153,7 +151,6 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 		Button colorButton = mSolo.getButton(5);
 		assertTrue(colorButton.getParent() instanceof TableRow);
 		mSolo.clickOnButton(5);
-		mSolo.sleep(50);
 		mSolo.clickOnButton(getActivity().getResources().getString(R.string.done));
 
 		int colorPickerColorAfterChange = getCurrentTool().getDrawPaint().getColor();
@@ -175,7 +172,6 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@FlakyTest(tolerance = 3)
 	public void testFilledRectChangesColor() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		selectTool(ToolType.SHAPE);
@@ -195,9 +191,8 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 		Button colorButton = mSolo.getButton(5);
 		assertTrue(colorButton.getParent() instanceof TableRow);
 		mSolo.clickOnButton(5);
-		mSolo.sleep(50);
 		mSolo.clickOnButton(getActivity().getResources().getString(R.string.done));
-		mSolo.sleep(50);
+		mSolo.sleep(50); // TODO
 
 		int colorInRectangleToolAfter = getCurrentTool().getDrawPaint().getColor();
 		Bitmap drawingBitmapAfter = (Bitmap) PrivateAccess.getMemberValue(BaseToolWithRectangleShape.class,
