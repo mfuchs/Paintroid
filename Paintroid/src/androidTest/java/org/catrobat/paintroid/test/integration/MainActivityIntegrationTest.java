@@ -125,7 +125,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	private void toolHelpTest(ToolType toolToClick, int idExpectedHelptext) {
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 		clickLongOnTool(toolToClick);
 
 		String helpTextExpected = mSolo.getString(idExpectedHelptext);
@@ -137,7 +137,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue("Wrong or missing tool name in dialog", mSolo.searchText(toolNameInHelperDialog, true));
 
 		mSolo.clickOnButton(buttonDoneTextExpected);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		assertFalse("Help text still present", mSolo.searchText(helpTextExpected, true));
 	}

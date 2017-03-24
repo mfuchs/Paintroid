@@ -140,7 +140,7 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testRectOnBitmapHasSameColorAsInColorPickerAfterColorChange() throws SecurityException,
 			IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 
 		int colorPickerColorBeforeChange = getCurrentTool().getDrawPaint().getColor();
 		openColorChooserDialog();
@@ -148,7 +148,6 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 		Button colorButton = mSolo.getButton(5);
 		assertTrue(colorButton.getParent() instanceof TableRow);
 		mSolo.clickOnButton(5);
-		mSolo.sleep(50);
 		mSolo.clickOnButton(getActivity().getResources().getString(R.string.done));
 
 		int colorPickerColorAfterChange = getCurrentTool().getDrawPaint().getColor();

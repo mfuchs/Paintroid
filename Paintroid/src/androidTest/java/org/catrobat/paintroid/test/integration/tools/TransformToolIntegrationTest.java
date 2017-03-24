@@ -414,7 +414,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 		mSolo.clickOnView(mButtonTopUndo);
 
-		assertTrue("Progress dialog did not close", mSolo.waitForDialogToClose(TIMEOUT));
+		assertTrue("Progress dialog did not close", mSolo.waitForDialogToClose());
 		PaintroidApplication.perspective.setScale(1.0f);
 
 		Point bottomRightCanvasPointAfterUndo = new Point(mCurrentDrawingSurfaceBitmap.getWidth() - 1,
@@ -622,7 +622,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		PointF canvasPoint = Utils.getCanvasPointFromScreenPoint(screenPoint);
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_SLEEP);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(canvasPoint);
 		assertEquals("Wrong pixel color after fill", colorToFill, colorAfterFill);
 
@@ -879,7 +879,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		PointF canvasPoint = Utils.getCanvasPointFromScreenPoint(screenPoint);
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_SLEEP);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(canvasPoint);
 		assertEquals("Wrong pixel color after fill", colorToFill, colorAfterFill);
 
@@ -966,7 +966,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 		PointF canvasPoint = Utils.getCanvasPointFromScreenPoint(screenPoint);
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_SLEEP);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(canvasPoint);
 		assertEquals("Wrong pixel color after fill", colorToFill, colorAfterFill);
 
