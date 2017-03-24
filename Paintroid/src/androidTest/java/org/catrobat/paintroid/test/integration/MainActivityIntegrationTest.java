@@ -20,6 +20,7 @@
 package org.catrobat.paintroid.test.integration;
 
 import android.support.test.runner.AndroidJUnit4;
+import android.test.FlakyTest;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
@@ -81,6 +82,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@FlakyTest(tolerance = 3)
 	public void testHelpDialogForCursor() {
 		toolHelpTest(ToolType.CURSOR, R.string.help_content_cursor);
 	}
@@ -116,6 +118,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@FlakyTest(tolerance = 3)
 	public void testHelpDialogForImportImage() {
 		toolHelpTest(ToolType.IMPORTPNG, R.string.help_content_import_png);
 	}

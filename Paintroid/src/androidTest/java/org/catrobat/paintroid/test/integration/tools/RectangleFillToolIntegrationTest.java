@@ -22,6 +22,7 @@ package org.catrobat.paintroid.test.integration.tools;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.FlakyTest;
 import android.widget.Button;
 import android.widget.TableRow;
 
@@ -63,6 +64,7 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@FlakyTest(tolerance = 3)
 	public void testFilledRectIsCreated() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		selectTool(ToolType.SHAPE);
@@ -140,6 +142,7 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@FlakyTest(tolerance = 3)
 	public void testRectOnBitmapHasSameColorAsInColorPickerAfterColorChange() throws SecurityException,
 			IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
@@ -172,6 +175,7 @@ public class RectangleFillToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@FlakyTest(tolerance = 3)
 	public void testFilledRectChangesColor() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		selectTool(ToolType.SHAPE);
