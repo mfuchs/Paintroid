@@ -65,7 +65,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testFloodFillIfImageLoaded() throws InterruptedException, SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 
 		PaintroidApplication.savedPictureUri = Uri.fromFile(new File("dummy"));
 
@@ -80,13 +80,13 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
-		mSolo.waitForDialogToClose(TIMEOUT);
+		mSolo.waitForDialogToClose();
 		mSolo.sleep(SHORT_SLEEP);
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(checkCanvasPoint);
 		assertEquals("Pixel color should be the same.", colorToFill, colorAfterFill);
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		assertTrue("Fill timed out", mSolo.waitForDialogToClose(TIMEOUT));
+		assertTrue("Fill timed out", mSolo.waitForDialogToClose());
 		PaintroidApplication.savedPictureUri = null;
 
 	}
@@ -94,7 +94,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testNoFloodFillIfEmpty() throws InterruptedException, SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 
 		selectTool(ToolType.FILL);
 
@@ -114,7 +114,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testBitmapIsFilled() throws InterruptedException, SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 
 		selectTool(ToolType.FILL);
 
@@ -136,7 +136,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testNothingHappensWhenClickedOutsideDrawingArea() throws InterruptedException, SecurityException,
 			IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 
 		selectTool(ToolType.FILL);
 
@@ -205,7 +205,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 
 		mSolo.clickOnScreen(clickScreenPoint.x, clickScreenPoint.y);
 		mSolo.sleep(SHORT_SLEEP);
-		mSolo.waitForDialogToClose(TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(checkCanvasPoint);
 		assertEquals("Pixel color should be the same", colorToFill, colorAfterFill);

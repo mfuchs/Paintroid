@@ -157,7 +157,7 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testPreserveZoomAndMoveAfterRedo() throws SecurityException, NoSuchFieldException,
 			IllegalAccessException {
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 
 		PaintroidApplication.perspective.setScale(1.0f);
 
@@ -171,7 +171,7 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 
 		Point pointOnScreen = Utils.convertFromCanvasToScreen(new Point((int)pointOnBitmap.x, (int)pointOnBitmap.y), PaintroidApplication.perspective);
 		mSolo.clickOnScreen(pointOnScreen.x, pointOnScreen.y);
-		mSolo.waitForDialogToClose(TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(pointOnBitmap);
 		assertEquals("Pixel color should be the same", colorToFill, colorAfterFill);

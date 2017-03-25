@@ -26,6 +26,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.v4.widget.DrawerLayout;
 import android.test.ActivityInstrumentationTestCase2;
@@ -97,9 +98,6 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	public void setUp() {
 		int setup = 0;
 		try {
-			Timeout.setSmallTimeout(TIMEOUT); // TODO have a multiplier that is used when running on Jenkins!!! maybe via -pjenkins or something!
-			Timeout.setLargeTimeout(TIMEOUT); // TODO this value is ignored, someone changes it!
-
 			Log.d("Paintroid test", "setup" + setup++);
 			super.setUp();
 			Log.d("Paintroid test", "setup" + setup++);
@@ -110,7 +108,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			mSolo = new Solo(getInstrumentation(), getActivity());
 			Log.d("Paintroid test", "setup" + setup++);
 
-			Timeout.setLargeTimeout(4 * TIMEOUT); // TODO works here, but not above!
+			adaptTimeouts();
 
 			systemAnimations = new SystemAnimations(getInstrumentation().getContext());
 			systemAnimations.disableAll();
@@ -149,6 +147,20 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 
 		Log.d(PaintroidApplication.TAG, "set up end");
+	}
+
+	private void adaptTimeouts() {
+		if (isRunningOnEmulator()) {
+			Timeout.setLargeTimeout(40000);
+			Timeout.setSmallTimeout(10000);
+		} else {
+			Timeout.setLargeTimeout(20000);
+			Timeout.setSmallTimeout(1000);
+		}
+	}
+
+	private boolean isRunningOnEmulator() {
+		return Build.PRODUCT.contains("sdk") || Build.DEVICE.contains("generic");
 	}
 
 	@Override
@@ -520,8 +532,6 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 	protected void openColorChooserDialog() {
 		mSolo.clickOnView(mButtonTopColor);
-		assertEquals(TIMEOUT, Timeout.getSmallTimeout());
-		assertEquals(4 * TIMEOUT, Timeout.getLargeTimeout());
 		assertTrue("Color chooser dialog was not opened", mSolo.waitForDialogToOpen());
 		assertTrue("Color chooser title not found", mSolo.searchText(mSolo.getString(R.string.color_chooser_title)));
 	}

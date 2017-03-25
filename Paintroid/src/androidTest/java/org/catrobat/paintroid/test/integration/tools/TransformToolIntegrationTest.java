@@ -414,7 +414,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 		mSolo.clickOnView(mButtonTopUndo);
 
-		assertTrue("Progress dialog did not close", mSolo.waitForDialogToClose(TIMEOUT));
+		assertTrue("Progress dialog did not close", mSolo.waitForDialogToClose());
 		PaintroidApplication.perspective.setScale(1.0f);
 
 		Point bottomRightCanvasPointAfterUndo = new Point(mCurrentDrawingSurfaceBitmap.getWidth() - 1,

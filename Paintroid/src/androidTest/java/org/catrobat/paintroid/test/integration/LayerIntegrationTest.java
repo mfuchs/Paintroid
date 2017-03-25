@@ -329,7 +329,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 
 	@Test
 	public void testOpacityChange() {
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 		mSolo.sleep(30);
 		PointF screenPoint = new PointF(mScreenWidth / 2, mScreenHeight / 2);
 		PointF canvasPoint = Utils.getCanvasPointFromScreenPoint(screenPoint);
