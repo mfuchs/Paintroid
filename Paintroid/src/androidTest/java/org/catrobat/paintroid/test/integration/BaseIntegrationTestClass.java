@@ -63,10 +63,7 @@ import org.junit.After;
 import org.junit.Before;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -551,58 +548,18 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		assertTrue("Color chooser title not found", mSolo.searchText(mSolo.getString(R.string.color_chooser_title)));
 	}
 
-	private void takeScreenshot(String baseName) {
+	private void takeScreenshot(String name) {
 		String currentTime = new SimpleDateFormat("HH_mm_ss").format(new Date());
-		baseName += "_"+ currentTime;
+		name += "_"+ currentTime;
 
-		final String path = Environment.getExternalStorageDirectory() + "/Robotium-Screenshots";
-		new File(path).mkdirs();
-
-		// take a screenshot of every view
-		final ArrayList<View> views = mSolo.getViews();
-		final ArrayList<File> files = new ArrayList<>();
-		for (int i = 0; i < views.size(); ++i) {
-			File file = new File(path + "/" + baseName + "_" +  i + ".jpg");
-			files.add(file);
-
-			takeScreenshot(file, views.get(i));
-		}
-
-
-		// wait for all screenshots
+		mSolo.takeScreenshot(name);
+		final File file = new File(Environment.getExternalStorageDirectory() + "/Robotium-Screenshots/", name + ".jpg");
 		assertTrue(mSolo.waitForCondition(new Condition() {
 			@Override
 			public boolean isSatisfied() {
-				for (File file : files) {
-					if (!file.exists()) {
-						return false;
-					}
-				}
-				return true;
+				return file.exists();
 			}
-		}, Timeout.getLargeTimeout()));
-	}
-
-	private void takeScreenshot(final File file, final View view) {
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				view.setDrawingCacheEnabled(true);
-				view.buildDrawingCache();
-				Bitmap b = view.getDrawingCache();
-
-				try {
-					FileOutputStream fos = new FileOutputStream(file);
-					if (fos != null) {
-						b.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-						fos.close();
-					}
-
-				} catch (IOException e) {
-
-				}
-			}
-		});
+		}, TIMEOUT));
 	}
 
 	protected void closeColorChooserDialog() {
