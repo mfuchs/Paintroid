@@ -98,7 +98,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		int setup = 0;
 		try {
 			Timeout.setSmallTimeout(TIMEOUT); // TODO have a multiplier that is used when running on Jenkins!!! maybe via -pjenkins or something!
-			Timeout.setLargeTimeout(TIMEOUT); // TODO
+			Timeout.setLargeTimeout(TIMEOUT); // TODO this value is ignored, someone changes it!
 
 			Log.d("Paintroid test", "setup" + setup++);
 			super.setUp();
@@ -109,6 +109,8 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			Log.d("Paintroid test", "setup" + setup++);
 			mSolo = new Solo(getInstrumentation(), getActivity());
 			Log.d("Paintroid test", "setup" + setup++);
+
+			Timeout.setLargeTimeout(4 * TIMEOUT); // TODO works here, but not above!
 
 			systemAnimations = new SystemAnimations(getInstrumentation().getContext());
 			systemAnimations.disableAll();
@@ -138,6 +140,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			Log.d("Paintroid test", "setup" + setup++);
 			mCurrentDrawingSurfaceBitmap = (Bitmap) PrivateAccess.getMemberValue(DrawingSurface.class,
 					PaintroidApplication.drawingSurface, "mWorkingBitmap");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("setup failed" + e.toString());
@@ -517,6 +520,8 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 	protected void openColorChooserDialog() {
 		mSolo.clickOnView(mButtonTopColor);
+		assertEquals(TIMEOUT, Timeout.getSmallTimeout());
+		assertEquals(4 * TIMEOUT, Timeout.getLargeTimeout());
 		assertTrue("Color chooser dialog was not opened", mSolo.waitForDialogToOpen());
 		assertTrue("Color chooser title not found", mSolo.searchText(mSolo.getString(R.string.color_chooser_title)));
 	}
