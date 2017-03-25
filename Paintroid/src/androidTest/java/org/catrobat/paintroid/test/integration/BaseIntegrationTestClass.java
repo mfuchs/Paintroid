@@ -531,6 +531,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	}
 
 	protected void openColorChooserDialog() {
+		mSolo.waitForView(mButtonTopColor);
 		mSolo.clickOnView(mButtonTopColor);
 		assertTrue("Color chooser dialog was not opened", mSolo.waitForDialogToOpen());
 		assertTrue("Color chooser title not found", mSolo.searchText(mSolo.getString(R.string.color_chooser_title)));
