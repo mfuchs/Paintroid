@@ -63,6 +63,8 @@ import org.junit.After;
 import org.junit.Before;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -534,23 +536,29 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	}
 
 	protected void openColorChooserDialog() {
+		takeScreenshot("before");
 		mSolo.clickOnView(mButtonTopColor);
 		boolean dialog_open = mSolo.waitForDialogToOpen();
 		if (!dialog_open) {
-			mSolo.takeScreenshot("ScreenshotFile");
-			final File file = new File(Environment.getExternalStorageDirectory() + "/Robotium-Screenshots/", "ScreenshotFile" + ".jpg");
-			final int TIMEOUT = 5000;
-			assertTrue(mSolo.waitForCondition(new Condition() {
-				@Override
-				public boolean isSatisfied() {
-					return file.exists();
-				}
-			}, TIMEOUT));
-
+			takeScreenshot("after");
 			assertEquals(mSolo.getCurrentActivity().getClass().getSimpleName(), "FOO");
 		}
 		assertTrue("Color chooser dialog was not opened", dialog_open);
 		assertTrue("Color chooser title not found", mSolo.searchText(mSolo.getString(R.string.color_chooser_title)));
+	}
+
+	private void takeScreenshot(String name) {
+		String currentTime = new SimpleDateFormat("HH_mm_ss").format(new Date());
+		name += "_"+ currentTime;
+
+		mSolo.takeScreenshot(name);
+		final File file = new File(Environment.getExternalStorageDirectory() + "/Robotium-Screenshots/", name + ".jpg");
+		assertTrue(mSolo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return file.exists();
+			}
+		}, TIMEOUT));
 	}
 
 	protected void closeColorChooserDialog() {
