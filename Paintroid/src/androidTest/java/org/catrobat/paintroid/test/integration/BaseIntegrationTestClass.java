@@ -536,14 +536,15 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	}
 
 	protected void openColorChooserDialog() {
-		takeScreenshot("before");
+		//takeScreenshot("before");
 		mSolo.clickOnView(mButtonTopColor);
+		mSolo.sleep(2000); // CRAP SLEEP
 		boolean dialog_open = mSolo.waitForDialogToOpen();
 		if (!dialog_open) {
-			takeScreenshot("fail");
+		//	takeScreenshot("fail");
 			assertEquals(mSolo.getCurrentActivity().getClass().getSimpleName(), "FOO");
 		}
-		takeScreenshot("after");
+		//takeScreenshot("after");
 		assertTrue("Color chooser dialog was not opened", dialog_open);
 		assertTrue("Color chooser title not found", mSolo.searchText(mSolo.getString(R.string.color_chooser_title)));
 	}
