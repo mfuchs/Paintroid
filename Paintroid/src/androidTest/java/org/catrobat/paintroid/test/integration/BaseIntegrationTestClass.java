@@ -98,6 +98,8 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		int setup = 0;
 		try {
 			Timeout.setSmallTimeout(TIMEOUT); // TODO have a multiplier that is used when running on Jenkins!!! maybe via -pjenkins or something!
+			Timeout.setLargeTimeout(TIMEOUT); // TODO
+
 			Log.d("Paintroid test", "setup" + setup++);
 			super.setUp();
 			Log.d("Paintroid test", "setup" + setup++);
@@ -141,7 +143,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			fail("setup failed" + e.toString());
 
 		}
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class, 1, TIMEOUT));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
 
 		Log.d(PaintroidApplication.TAG, "set up end");
 	}
@@ -197,20 +199,20 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	private void waitForToolToSwitch(ToolType toolTypeToWaitFor) {
 
 		if (!mSolo.waitForActivity(MainActivity.class.getSimpleName())) {
-			mSolo.sleep(2000);
+			mSolo.sleep(2000); // TODO
 			assertTrue("Waiting for tool to change -> MainActivity",
-					mSolo.waitForActivity(MainActivity.class.getSimpleName(), TIMEOUT));
+					mSolo.waitForActivity(MainActivity.class.getSimpleName()));
 		}
 
-		for (int waitingCounter = 0; waitingCounter < 50; waitingCounter++) {
+		for (int waitingCounter = 0; waitingCounter < 50; waitingCounter++) { // TODO WTF???
 			if (toolTypeToWaitFor.compareTo(PaintroidApplication.currentTool.getToolType()) != 0)
-				mSolo.sleep(150);
+				mSolo.sleep(150); // TODO
 			else
 				break;
 		}
 		assertEquals("Check switch to correct type", toolTypeToWaitFor.name(), PaintroidApplication.currentTool
 				.getToolType().name());
-		mSolo.sleep(1500); // wait for toast to disappear
+		mSolo.sleep(1500); // wait for toast to disappear // TODO this is no wait!
 	}
 
 	protected void clickLongOnTool(ToolType toolType) {

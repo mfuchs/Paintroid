@@ -168,22 +168,22 @@ public class ToolOnBackPressedTests extends BaseIntegrationTestClass {
 		int numberButtonsAtBeginning = mSolo.getCurrentViews(Button.class).size();
 
 		mSolo.goBack();
-		assertTrue("Waiting for the exit dialog to appear", mSolo.waitForActivity("MainActivity", TIMEOUT));
+		assertTrue("Waiting for the exit dialog to appear", mSolo.waitForActivity("MainActivity"));
 		assertTrue("Yes Option should be available", mSolo.searchText(mSolo.getString(R.string.save_button_text)));
 		assertTrue("No Option should be available", mSolo.searchText(mSolo.getString(R.string.discard_button_text)));
 		TextView exitTextView = mSolo.getText(mSolo.getString(R.string.closing_security_question));
 		assertNotNull("No exit Text found", exitTextView);
 
 		mSolo.goBack();
-		assertTrue("Waiting for the exit dialog to close", mSolo.waitForActivity("MainActivity", TIMEOUT));
+		assertTrue("Waiting for the exit dialog to close", mSolo.waitForActivity("MainActivity"));
 		assertEquals("Two buttons exit screen should be away", mSolo.getCurrentViews(Button.class).size(),
 				numberButtonsAtBeginning);
 
 		mSolo.goBack();
-		assertTrue("Waiting for the exit dialog to appear", mSolo.waitForActivity("MainActivity", TIMEOUT));
+		assertTrue("Waiting for the exit dialog to appear", mSolo.waitForActivity("MainActivity"));
 		mSolo.clickOnButton(mSolo.getString(R.string.save_button_text));
-		assertTrue("Waiting for the exit dialog to finish", mSolo.waitForActivity("MainActivity", TIMEOUT));
-		mSolo.sleep(8000);
+		assertTrue("Waiting for the exit dialog to finish", mSolo.waitForActivity("MainActivity"));
+		mSolo.sleep(8000); // TODO WTF?
 		boolean hasStopped = PrivateAccess.getMemberValueBoolean(Activity.class, getActivity(), "mStopped");
 		assertTrue("MainActivity should be finished.", hasStopped);
 		fileToReturnToCatroid = new File(pathToFile);

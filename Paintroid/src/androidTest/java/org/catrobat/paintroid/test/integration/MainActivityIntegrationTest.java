@@ -49,7 +49,6 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		String buttonTermsOfUseAndService = getActivity().getString(R.string.menu_terms_of_use_and_service);
 		openNavigationDrawer();
 		mSolo.clickOnText(buttonTermsOfUseAndService);
-		mSolo.sleep(500);
 
 		String termsOfUseAndServiceTextExpected = getActivity().getString(R.string.terms_of_use_and_service_content);
 
@@ -65,7 +64,6 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		String buttonAbout = getActivity().getString(R.string.menu_about);
 		openNavigationDrawer();
 		mSolo.clickOnText(buttonAbout);
-		mSolo.sleep(500);
 
 		String aboutTextExpected = getActivity().getString(R.string.about_content);
 		String licenseText = getActivity().getString(R.string.license_type_paintroid);
