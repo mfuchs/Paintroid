@@ -559,14 +559,20 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		new File(path).mkdirs();
 
 		// take a screenshot of every view
-		final ArrayList<View> views = mSolo.getViews();
+		final ArrayList<View> views = mSolo.getCurrentViews();
 		final ArrayList<File> files = new ArrayList<>();
+		final View focus = mSolo.getCurrentActivity().getCurrentFocus();
+
 		for (int i = 0; i < views.size(); ++i) {
-			File file = new File(path + "/" + baseName + "_" +  i + ".jpg");
+			final View view = views.get(i);
+			String focusText = view == focus ? "_f" : "";
+
+			File file = new File(path + "/" + baseName + "_" +  i + focusText + ".jpg");
 			files.add(file);
 
-			takeScreenshot(file, views.get(i));
+			takeScreenshot(file, view);
 		}
+
 
 
 		// wait for all screenshots
