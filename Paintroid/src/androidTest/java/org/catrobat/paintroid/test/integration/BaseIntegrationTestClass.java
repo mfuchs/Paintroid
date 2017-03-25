@@ -561,7 +561,6 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		// take a screenshot of every view
 		final View focus = mSolo.getCurrentActivity().getCurrentFocus();
 		final ArrayList<View> views = mSolo.getCurrentViews();
-		final ArrayList<File> files = new ArrayList<>();
 
 		for (int i = 0; i < views.size(); ++i) {
 			final View view = views.get(i);
@@ -569,26 +568,10 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 				continue;
 
 			String focusText = view == focus ? "_f" : "";
-			File file = new File(path + "/" + baseName + "_" +  i + focusText + ".jpg");
-			files.add(file);
+			final File file = new File(path + "/" + baseName + "_" +  i + focusText + ".jpg");
 
 			takeScreenshot(file, view);
 		}
-
-
-
-		// wait for all screenshots
-		assertTrue(mSolo.waitForCondition(new Condition() {
-			@Override
-			public boolean isSatisfied() {
-				for (File file : files) {
-					if (!file.exists()) {
-						return false;
-					}
-				}
-				return true;
-			}
-		}, Timeout.getLargeTimeout()));
 	}
 
 	private void takeScreenshot(final File file, final View view) {
@@ -611,6 +594,13 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 				}
 			}
 		});
+
+		assertTrue(mSolo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return file.exists();
+			}
+		}, Timeout.getLargeTimeout()));
 	}
 
 	protected void closeColorChooserDialog() {
