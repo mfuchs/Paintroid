@@ -80,7 +80,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@FlakyTest(tolerance = 3)
+	@Ignore
 	public void testHelpDialogForCursor() {
 		toolHelpTest(ToolType.CURSOR, R.string.help_content_cursor);
 	}
