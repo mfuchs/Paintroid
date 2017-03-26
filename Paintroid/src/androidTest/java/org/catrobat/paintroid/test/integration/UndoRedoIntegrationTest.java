@@ -120,7 +120,7 @@ public class UndoRedoIntegrationTest extends BaseIntegrationTestClass {
 
 		Point pointOnScreen = Utils.convertFromCanvasToScreen(new Point((int)pointOnBitmap.x, (int)pointOnBitmap.y), PaintroidApplication.perspective);
 		mSolo.clickOnScreen(pointOnScreen.x, pointOnScreen.y);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		float scale = 0.5f;
 		PaintroidApplication.perspective.setScale(scale); // done this way since robotium does not support > 1

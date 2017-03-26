@@ -229,7 +229,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 
 		openMenu();
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.waitForDialogToClose();
 		assertEquals("current Activity not MainActivity", MainActivity.class, mSolo.getCurrentActivity().getClass());
 
@@ -248,7 +248,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		openMenu();
 		mSolo.clickOnText(mSolo.getString(R.string.menu_save_image));
 
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.waitForDialogToClose();
 		assertNotNull(PaintroidApplication.savedPictureUri);
 		addUriToDeletionFileList(PaintroidApplication.savedPictureUri);
@@ -260,7 +260,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		openMenu();
 		mSolo.clickOnText(mSolo.getString(R.string.menu_save_copy));
 
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.waitForDialogToClose();
 
 		File newFile = new File(PaintroidApplication.savedPictureUri.toString());

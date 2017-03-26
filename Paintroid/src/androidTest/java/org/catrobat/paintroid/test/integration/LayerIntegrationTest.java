@@ -66,7 +66,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testAddOneLayer() {
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		assertTrue("First Layer not visible", mSolo.searchText(LAYER_ZERO));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		assertTrue("New Layer not visible", mSolo.searchText(LAYER_ONE));
@@ -75,7 +75,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testDeleteEmptyLayer() {
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		assertTrue("New Layer not visible", mSolo.searchText(LAYER_ONE));
 		mSolo.clickOnText(LAYER_ONE);
@@ -89,11 +89,11 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		PointF checkCanvasPoint = Utils.getCanvasPointFromScreenPoint(checkScreenPoint);
 
 		mSolo.clickOnScreen(checkScreenPoint.x, checkScreenPoint.y);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 		int colorLayerZero = PaintroidApplication.drawingSurface.getPixel(checkCanvasPoint);
 
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.clickOnText(LAYER_ZERO);
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerDelete));
@@ -117,10 +117,10 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.drag(leftPointOnScreen.x, rightPointOnScreen.x, leftPointOnScreen.y, rightPointOnScreen.y, 2);
 		selectTool(ToolType.FILL);
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.goBack();
 
@@ -128,7 +128,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.drag(leftPointOnScreen.x, rightPointOnScreen.x, leftPointOnScreen.y, rightPointOnScreen.y, 1);
 		selectTool(ToolType.FILL);
 		mSolo.clickOnScreen(mScreenWidth / 2, 2 * mScreenHeight / 3);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		int colorUpperSide = PaintroidApplication.drawingSurface.getPixel(UpperCanvasPoint);
 		int colorLowerSide = PaintroidApplication.drawingSurface.getPixel(LowerCanvasPoint);
@@ -138,7 +138,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testTryDeleteOnlyLayer() {
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerDelete));
 		assertTrue("Layer 0 shouldn't be deleted", mSolo.searchText(LAYER_ZERO));
 	}
@@ -146,7 +146,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testMergeTwoEmptyLayers() {
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		assertTrue("New Layer not visible", mSolo.searchText(LAYER_ONE));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerMerge));
@@ -161,10 +161,10 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.drag(leftPointOnScreen.x, rightPointOnScreen.x, leftPointOnScreen.y, rightPointOnScreen.y, 2);
 		selectTool(ToolType.FILL);
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.goBack();
 
@@ -172,10 +172,10 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.drag(leftPointOnScreen.x, rightPointOnScreen.x, leftPointOnScreen.y, rightPointOnScreen.y, 2);
 		selectTool(ToolType.FILL);
 		mSolo.clickOnScreen(mScreenWidth / 2, 2 * mScreenHeight / 3);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerMerge));
 		mSolo.clickOnText(LAYER_ZERO);
 		assertTrue("Merge two Layers didn't work", mSolo.searchText(LAYER_TWO));
@@ -193,9 +193,9 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	public void testRenameLayer() {
 		String newName = "New Layer Name";
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerRename));
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		assertTrue("Rename Dialog should be shown", mSolo.searchText("Enter new layer name"));
 		getInstrumentation().sendStringSync(newName);
 		mSolo.clickOnText("OK");
@@ -206,13 +206,13 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	public void testRenameMergedLayer() {
 		String newName = "Merged Layer";
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerMerge));
 		mSolo.clickOnText(LAYER_ZERO);
 		mSolo.clickOnText(LAYER_TWO);
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerRename));
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		getInstrumentation().sendStringSync(newName);
 		mSolo.clickOnText("OK");
 		assertTrue("Rename Layer didn't work", mSolo.searchText(newName));
@@ -225,12 +225,12 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		int colorTransparent = PaintroidApplication.drawingSurface.getPixel(checkCanvasPoint);
 
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerLock));
 
 		mSolo.clickOnScreen(checkScreenPoint.x, checkScreenPoint.y);
 		mSolo.goBack();
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 		int colorAfterDraw = PaintroidApplication.drawingSurface.getPixel(checkCanvasPoint);
 		assertEquals("Pixel color should be transparent.", colorTransparent, colorAfterDraw);
 
@@ -244,7 +244,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.clickOnScreen(checkScreenPoint.x, checkScreenPoint.y);
 
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerVisible));
 		mSolo.goBack();
 
@@ -256,13 +256,13 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testLockLayerSetInvisible() {
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerVisible));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerLock));
 		mSolo.goBack();
 
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerVisible));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerLock));
 		mSolo.goBack();
@@ -273,7 +273,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	public void testTrySetMoreLayersThanLimit() {
 
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
@@ -289,7 +289,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	public void testMultipleLayersNewImageDiscardOld() {
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.goBack();
@@ -310,7 +310,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	public void testMultipleLayersNewImageSaveOld() {
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);
 		mSolo.clickOnView(mButtonTopLayer);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.clickOnView(mSolo.getView(R.id.mButtonLayerNew));
 		mSolo.goBack();

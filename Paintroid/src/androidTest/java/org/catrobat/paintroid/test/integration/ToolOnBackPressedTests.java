@@ -108,7 +108,7 @@ public class ToolOnBackPressedTests extends BaseIntegrationTestClass {
 		mSolo.sleep(SHORT_SLEEP);
 
 		mSolo.goBack();
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 
 		// assertTrue("Waiting for the exit dialog to appear", mSolo.waitForActivity("MainActivity", TIMEOUT));
 		mSolo.clickOnButton(mSolo.getString(R.string.save_button_text));

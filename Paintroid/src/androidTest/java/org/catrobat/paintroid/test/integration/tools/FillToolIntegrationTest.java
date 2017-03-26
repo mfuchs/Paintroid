@@ -79,7 +79,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		PointF checkCanvasPoint = Utils.getCanvasPointFromScreenPoint(checkScreenPoint);
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
 		mSolo.waitForDialogToClose();
 		mSolo.sleep(SHORT_SLEEP);
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(checkCanvasPoint);
@@ -106,7 +106,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		PointF checkCanvasPoint = Utils.getCanvasPointFromScreenPoint(checkScreenPoint);
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y); // to fill the bitmap
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(checkCanvasPoint);
 		assertEquals("Pixel color should be the same", colorToFill, colorAfterFill);
 	}
@@ -127,7 +127,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y); // to fill the bitmap
 		mSolo.sleep(SHORT_SLEEP);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(checkCanvasPoint);
 
 		assertEquals("Pixel color should be the same", colorToFill, colorAfterFill);
@@ -149,8 +149,8 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		PointF insideCanvasPoint = Utils.getCanvasPointFromScreenPoint(insideScreenPoint);
 
 		mSolo.clickOnScreen(outsideScreenPoint.x, outsideScreenPoint.y);
-		mSolo.waitForDialogToOpen(SHORT_TIMEOUT);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToOpen();
+		mSolo.waitForDialogToClose();
 
 		int colorAfterFill = PaintroidApplication.drawingSurface.getPixel(insideCanvasPoint);
 		assertFalse("Pixel color should not be the same", (colorToFill == colorAfterFill));
@@ -197,7 +197,7 @@ public class FillToolIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.clickOnButton(5);
 		mSolo.sleep(SHORT_SLEEP);
 		mSolo.clickOnButton(getActivity().getResources().getString(R.string.done));
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		int colorToFill = PaintroidApplication.currentTool.getDrawPaint().getColor();
 		assertFalse(colorToDrawBorder == colorToFill);

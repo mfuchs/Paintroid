@@ -141,7 +141,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue("Wrong or missing tool name in dialog", mSolo.searchText(toolNameInHelperDialog, true));
 
 		mSolo.clickOnButton(buttonDoneTextExpected);
-		mSolo.waitForDialogToClose(SHORT_TIMEOUT);
+		mSolo.waitForDialogToClose();
 
 		assertFalse("Help text still present", mSolo.searchText(helpTextExpected, true));
 	}
