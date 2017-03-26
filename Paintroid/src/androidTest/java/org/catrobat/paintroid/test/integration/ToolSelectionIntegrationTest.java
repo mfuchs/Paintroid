@@ -133,6 +133,7 @@ public class ToolSelectionIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@Ignore
 	public void testToastShowsRightToolName() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		BottomBar bottomBar = (BottomBar) PrivateAccess.getMemberValue(MainActivity.class, getActivity(),
