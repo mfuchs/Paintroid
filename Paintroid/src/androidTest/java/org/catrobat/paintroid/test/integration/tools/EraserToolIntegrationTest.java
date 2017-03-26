@@ -104,7 +104,6 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testSwitchingBetweenBrushAndEraser() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 
@@ -142,7 +141,6 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testChangeEraserBrushSize() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
@@ -215,7 +213,6 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testRestorePreviousToolSettings() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
