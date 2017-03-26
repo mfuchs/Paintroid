@@ -116,7 +116,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@FlakyTest(tolerance = 3)
+	@Ignore
 	public void testHelpDialogForImportImage() {
 		toolHelpTest(ToolType.IMPORTPNG, R.string.help_content_import_png);
 	}
