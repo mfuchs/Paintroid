@@ -36,6 +36,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
+@Ignore
 public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 
 	public MainActivityIntegrationTest() throws Exception {
