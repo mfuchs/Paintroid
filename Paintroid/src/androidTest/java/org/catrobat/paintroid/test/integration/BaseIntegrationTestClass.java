@@ -216,23 +216,21 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		waitForToolToSwitch(toolType);
 	}
 
-	private void waitForToolToSwitch(ToolType toolTypeToWaitFor) {
+	private void waitForToolToSwitch(final ToolType toolTypeToWaitFor) {
 
 		if (!mSolo.waitForActivity(MainActivity.class.getSimpleName())) {
-			mSolo.sleep(2000); // TODO
 			assertTrue("Waiting for tool to change -> MainActivity",
 					mSolo.waitForActivity(MainActivity.class.getSimpleName()));
 		}
 
-		for (int waitingCounter = 0; waitingCounter < 50; waitingCounter++) { // TODO WTF???
-			if (toolTypeToWaitFor.compareTo(PaintroidApplication.currentTool.getToolType()) != 0)
-				mSolo.sleep(150); // TODO
-			else
-				break;
-		}
+		mSolo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return toolTypeToWaitFor.compareTo(PaintroidApplication.currentTool.getToolType()) == 0;
+			}
+		}, Timeout.getLargeTimeout());
 		assertEquals("Check switch to correct type", toolTypeToWaitFor.name(), PaintroidApplication.currentTool
 				.getToolType().name());
-		mSolo.sleep(1500); // wait for toast to disappear // TODO this is no wait!
 	}
 
 	protected void clickLongOnTool(ToolType toolType) {
@@ -292,7 +290,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			}
 		}
 
-		assertNotNull("Tool button not found", toolButtonView);
+		assertNotNull("Tool button not found " + toolType.name(), toolButtonView);
 		return toolButtonView;
 	}
 
@@ -332,7 +330,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			}
 		}
 
-		assertNotNull("Tool button not found", toolButtonView);
+		assertNotNull("Tool button not found " + toolType.name(), toolButtonView);
 		return toolButtonView;
 	}
 
@@ -367,16 +365,12 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 	protected void openToolOptionsForCurrentTool() {
 		mSolo.clickOnView(getToolButtonView(getCurrentTool().getToolType()));
-		Condition toolOptionsAreShown = new Condition() {
+		assertTrue("opening tool options failed", mSolo.waitForCondition(new Condition() {
 			@Override
 			public boolean isSatisfied() {
-				if (toolOptionsAreShown()) {
-					return true;
-				}
-				return false;
+				return toolOptionsAreShown();
 			}
-		};
-		assertTrue("opening tool options failed", mSolo.waitForCondition(toolOptionsAreShown, TIMEOUT));
+		}, Timeout.getLargeTimeout()));
 	}
 
 	protected void openToolOptionsForCurrentTool(ToolType expectedCurrentToolType) {
@@ -387,16 +381,12 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	protected void closeToolOptionsForCurrentTool() {
 
 		mSolo.clickOnView(getToolButtonView(getCurrentTool().getToolType()));
-		Condition toolOptionsNotShown = new Condition() {
+		assertTrue("Closing tool options failed", mSolo.waitForCondition(new Condition() {
 			@Override
 			public boolean isSatisfied() {
-				if (toolOptionsAreShown()) {
-					return false;
-				}
-				return true;
+				return !toolOptionsAreShown();
 			}
-		};
-		assertTrue("Closing tool options failed", mSolo.waitForCondition(toolOptionsNotShown, TIMEOUT));
+		}, Timeout.getLargeTimeout()));
 	}
 
 	protected boolean toolOptionsAreShown() {

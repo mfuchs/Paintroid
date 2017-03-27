@@ -19,6 +19,9 @@ import android.widget.TabWidget;
 import android.widget.Toolbar;
 
 
+import com.robotium.solo.Condition;
+import com.robotium.solo.Timeout;
+
 import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.dialog.colorpicker.ColorPickerDialog;
@@ -108,7 +111,6 @@ public class LandscapeTest extends BaseIntegrationTestClass {
     }
 
     @Test
-    @Ignore("Broken")
     public void testToolBarOptionWidth() throws  SecurityException, IllegalArgumentException, NoSuchFieldException,
             IllegalAccessException{
 
@@ -138,7 +140,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         if(!isCurrentTool(tool))
             selectTool(tool);
         openToolOptionsForCurrentTool(tool);
-        assertTrue("Toolbar is not shown", mSolo.getView(R.id.main_tool_options).isShown());
+        assertTrue("Toolbar is not shown", waitForShownView(R.id.main_tool_options, View.class));
     }
 
     @Test
@@ -200,10 +202,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
         View toolbar = (View)mSolo.getView(R.id.toolbar);
 
         mSolo.clickOnView(toolbar);
-        mSolo.sleep(MEDIUM_TIMEOUT);
-
-        View drawer = (View)mSolo.getView(R.id.nav_view);
-        assertTrue("Navigationdrawer is not shown", drawer.isShown());
+        assertTrue("Navigationdrawer is not shown", waitForShownView(R.id.nav_view, View.class));
     }
 
     @Test
@@ -211,8 +210,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
             IllegalAccessException {
 
         mSolo.clickOnView(mColorButton);
-        ColorPickerView colorPickerView = (ColorPickerView) mSolo.getView(R.id.view_colorpicker);
-        assertTrue("ColorPickerView is not shown", colorPickerView.isShown());
+        assertTrue("ColorPickerView is not shown", waitForShownView(R.id.view_colorpicker, ColorPickerView.class));
     }
 
     @Test
@@ -221,8 +219,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
 
         mSolo.clickOnView(mColorButton);
-        ColorPickerView colorPickerView = (ColorPickerView) mSolo.getView(R.id.view_colorpicker);
-        assertTrue("ColorPickerView is not shown", colorPickerView.isShown());
+        assertTrue("ColorPickerView is not shown", waitForShownView(R.id.view_colorpicker, ColorPickerView.class));
         mSolo.scrollUp();
 
         TypedArray presetColors = getActivity().getResources().obtainTypedArray(R.array.preset_colors);
@@ -277,6 +274,15 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
 
 
+    private boolean waitForShownView(final int id, final Class expected_type) {
+        return mSolo.waitForCondition(new Condition() {
+            @Override
+            public boolean isSatisfied() {
+                View view = (View)expected_type.cast(mSolo.getView(id));
+                return view != null && view.isShown();
+            }
+        }, Timeout.getLargeTimeout());
+    }
 
     private ToolType getToolTypeByButtonId(int id) {
         ToolType retToolType = null;
