@@ -273,6 +273,8 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		int[] btnLocation = {0, 0};
 		getToolButtonView(toolType).getLocationOnScreen(btnLocation);
 		float btnPos = btnLocation[0] + (getToolButtonView(toolType).getWidth() / 2.0f);
+		String positions = "";
+		positions += btnPos + " " + scrollPosRight + " [" + btnLocation[0] + ", " + btnLocation[1] + "] == ";
 
 		if (btnPos <= scrollPosRight) {
 			toolButtonView =  getToolButtonView(toolType);
@@ -282,13 +284,14 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			mSolo.scrollViewToSide(scrollView, Solo.RIGHT);
 			getToolButtonView(toolType).getLocationOnScreen(btnLocation);
 			btnPos = btnLocation[0] + (getToolButtonView(toolType).getWidth() / 2.0f);
+			positions += btnPos + " " + scrollPosRight + " [" + btnLocation[0] + ", " + btnLocation[1] + "] == ";
 			if (btnPos <= scrollPosRight) {
 				toolButtonView = getToolButtonView(toolType);
 				break;
 			}
 		}
 
-		assertNotNull("Tool button not found " + toolType.name(), toolButtonView);
+		assertNotNull("A: Tool button not found " + toolType.name() + " " + positions, toolButtonView);
 		return toolButtonView;
 	}
 
@@ -306,6 +309,8 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		int[] btnLocation = {0, 0};
 		getToolButtonView(toolType).getLocationOnScreen(btnLocation);
 		float btnPos = btnLocation[1] + (getToolButtonView(toolType).getHeight() / 2.0f);
+		String positions = "";
+		positions += btnPos + " " + scrollPosBottom + " [" + btnLocation[0] + ", " + btnLocation[1] + "] == ";
 
 		if (btnPos <= scrollPosBottom) {
 			toolButtonView =  getToolButtonView(toolType);
@@ -322,13 +327,14 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			mSolo.drag(fromX, toX, fromY, toY, stepCount);
 			getToolButtonView(toolType).getLocationOnScreen(btnLocation);
 			btnPos = btnLocation[1] + (getToolButtonView(toolType).getHeight() / 2.0f);
+			positions += btnPos + " " + scrollPosBottom + " [" + btnLocation[0] + ", " + btnLocation[1] + "] == ";
 			if (btnPos <= scrollPosBottom) {
 				toolButtonView = getToolButtonView(toolType);
 				break;
 			}
 		}
 
-		assertNotNull("Tool button not found " + toolType.name(), toolButtonView);
+		assertNotNull("B: Tool button not found " + toolType.name() + " " + positions, toolButtonView);
 		return toolButtonView;
 	}
 
