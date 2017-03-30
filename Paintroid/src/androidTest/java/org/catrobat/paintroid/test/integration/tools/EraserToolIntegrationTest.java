@@ -100,6 +100,7 @@ public class EraserToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
+	@Ignore
 	public void testSwitchingBetweenBrushAndEraser() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 
