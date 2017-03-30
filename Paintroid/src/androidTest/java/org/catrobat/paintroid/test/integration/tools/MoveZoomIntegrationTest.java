@@ -88,7 +88,6 @@ public class MoveZoomIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testZoomOut() {
 		float scaleBeforeZoom = PaintroidApplication.perspective.getScale();
 
@@ -99,7 +98,6 @@ public class MoveZoomIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testZoomIn() {
 		float scaleBeforeZoom = PaintroidApplication.perspective.getScale();
 
