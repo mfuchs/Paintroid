@@ -33,11 +33,11 @@ android {
             println("#### does file testexclusions.txt exist in parent of '.'? " + file('.').absolutePath + " " + exclusionFile.exists() + " " + inclusionFile.exists())
             if (exclusionFile.exists()) {
                 println('### EXCLUDING: ' + exclusionFile.readLines())
-                java.exclude exclusionFile.readLines()
+                java.setExcludes exclusionFile.readLines()
             } else if (inclusionFile.exists()) {
                 println("#### already includes: " + java.getIncludes())
                 println('### INCLUDING: ' + inclusionFile.readLines())
-                java.include inclusionFile.readLines()
+                java.setIncludes inclusionFile.readLines()
                 println("#### AFTER INCLUDING: " + java.getIncludes())
             } else {
                 println("### nothing to exclude")
