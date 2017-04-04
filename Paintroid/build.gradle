@@ -35,8 +35,10 @@ android {
                 println('### EXCLUDING: ' + exclusionFile.readLines())
                 java.exclude exclusionFile.readLines()
             } else if (inclusionFile.exists()) {
+                println("#### already includes: " + java.getIncludes())
                 println('### INCLUDING: ' + inclusionFile.readLines())
                 java.include inclusionFile.readLines()
+                println("#### AFTER INCLUDING: " + java.getIncludes())
             } else {
                 println("### nothing to exclude")
             }
