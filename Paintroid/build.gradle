@@ -37,7 +37,10 @@ android {
             } else if (inclusionFile.exists()) {
                 println("#### already includes: " + java.getIncludes())
                 println('### INCLUDING: ' + inclusionFile.readLines())
-                java.setIncludes inclusionFile.readLines()
+                def includes = inclusionFile.readLines()
+                includes.add("**/utils/*.java")
+                includes.add("**/BaseIntegration*.java")
+                java.setIncludes includes
                 println("#### AFTER INCLUDING: " + java.getIncludes())
             } else {
                 println("### nothing to exclude")
