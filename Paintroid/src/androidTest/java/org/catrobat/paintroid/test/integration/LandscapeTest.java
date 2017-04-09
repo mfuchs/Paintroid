@@ -144,7 +144,6 @@ public class LandscapeTest extends BaseIntegrationTestClass {
     }
 
     @Test
-    @Ignore("Broken")
     public void testTools() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
     IllegalAccessException {
 
