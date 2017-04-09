@@ -124,7 +124,6 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testLoadImageDialogOnBackPressed() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_SLEEP);
@@ -138,7 +137,6 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testWarningDialogOnNewImage() {
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
@@ -180,7 +178,6 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@FlakyTest(tolerance = 3)
 	public void testNewEmptyDrawingDialogOnBackPressed() {
 		selectTool(ToolType.BRUSH);
 		resetColorPicker();
@@ -204,7 +201,6 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testSavedStateChangeAfterSave() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
 		mSolo.sleep(SHORT_TIMEOUT);
