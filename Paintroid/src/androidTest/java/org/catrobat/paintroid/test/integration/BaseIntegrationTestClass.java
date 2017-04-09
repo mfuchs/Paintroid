@@ -211,23 +211,19 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		waitForToolToSwitch(toolType);
 	}
 
-	private void waitForToolToSwitch(ToolType toolTypeToWaitFor) {
+	private void waitForToolToSwitch(final ToolType toolTypeToWaitFor) {
 
-		if (!mSolo.waitForActivity(MainActivity.class.getSimpleName())) {
-			mSolo.sleep(2000);
-			assertTrue("Waiting for tool to change -> MainActivity",
-					mSolo.waitForActivity(MainActivity.class.getSimpleName()));
-		}
+		assertTrue("Waiting for tool to change -> MainActivity",
+					mSolo.waitForActivity(MainActivity.class));
 
-		for (int waitingCounter = 0; waitingCounter < 50; waitingCounter++) {
-			if (toolTypeToWaitFor.compareTo(PaintroidApplication.currentTool.getToolType()) != 0)
-				mSolo.sleep(150);
-			else
-				break;
-		}
+		mSolo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return toolTypeToWaitFor.compareTo(PaintroidApplication.currentTool.getToolType()) == 0;
+			}
+		}, Timeout.getLargeTimeout());
 		assertEquals("Check switch to correct type", toolTypeToWaitFor.name(), PaintroidApplication.currentTool
 				.getToolType().name());
-		mSolo.sleep(1500); // wait for toast to disappear
 	}
 
 	protected void clickLongOnTool(ToolType toolType) {
