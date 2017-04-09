@@ -71,7 +71,6 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
         Point size = new Point();
         mSolo.getCurrentActivity().getWindowManager().getDefaultDisplay().getSize(size);
-        mSolo.sleep(SHORT_TIMEOUT);
 
         int bottomBarWidth = mainBottomBar.getWidth();
         int bottomBarHeight = mainBottomBar.getHeight();
@@ -95,7 +94,6 @@ public class LandscapeTest extends BaseIntegrationTestClass {
 
         Point size = new Point();
         mSolo.getCurrentActivity().getWindowManager().getDefaultDisplay().getSize(size);
-        mSolo.sleep(SHORT_TIMEOUT);
 
         int toolBarWidth = mainToolbar.getWidth();
         int toolBarHeight = mainToolbar.getHeight();
