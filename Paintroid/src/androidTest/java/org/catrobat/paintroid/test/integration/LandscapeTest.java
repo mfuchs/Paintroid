@@ -307,7 +307,6 @@ public class LandscapeTest extends BaseIntegrationTestClass {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else if(orienation == SCREEN_ORIENTATION_LANDSCAPE)
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        mSolo.sleep(MEDIUM_TIMEOUT);
 
     }
 
