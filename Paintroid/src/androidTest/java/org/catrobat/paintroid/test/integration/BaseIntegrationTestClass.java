@@ -541,4 +541,33 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		return numberOfNotVisibleTools;
 	}
 
+	protected void assertPixelAt(String message, PointF pos, int expectedColor) {
+		HasColorAtPixel cond = new HasColorAtPixel(pos, expectedColor);
+		mSolo.waitForCondition(cond, Timeout.getSmallTimeout());
+
+		assertEquals(message, expectedColor, cond.getActualColor());
+	}
+
+	private class HasColorAtPixel implements Condition  {
+		private PointF mPos;
+		private int mExpectedColor;
+		private int mActualColor;
+
+		public HasColorAtPixel(PointF pos, int expectedColor) {
+			mPos = pos;
+			mExpectedColor = expectedColor;
+			mActualColor = 0;
+		}
+
+		public int getActualColor() {
+			return mActualColor;
+		}
+
+		@Override
+		public boolean isSatisfied() {
+			mActualColor = PaintroidApplication.drawingSurface.getPixel(mPos);
+			return mActualColor == mExpectedColor;
+		}
+	}
+
 }
