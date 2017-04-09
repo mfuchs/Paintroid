@@ -242,7 +242,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	public void testSaveCopy() {
 		assertNull(PaintroidApplication.savedPictureUri);
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_TIMEOUT);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		openMenu();
 		mSolo.clickOnText(mSolo.getString(R.string.menu_save_image));
@@ -253,8 +253,9 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		addUriToDeletionFileList(PaintroidApplication.savedPictureUri);
 		File oldFile = new File(PaintroidApplication.savedPictureUri.toString());
 
-		mSolo.clickOnScreen(screenPoint.x, screenPoint.y + 100);
-		mSolo.sleep(SHORT_SLEEP);
+		PointF point2 = new PointF(screenPoint.x, screenPoint.y + 100);
+		mSolo.clickOnScreen(point2.x, point2.y);
+		assertPixelAt(point2, Color.BLACK);
 
 		openMenu();
 		mSolo.clickOnText(mSolo.getString(R.string.menu_save_copy));
