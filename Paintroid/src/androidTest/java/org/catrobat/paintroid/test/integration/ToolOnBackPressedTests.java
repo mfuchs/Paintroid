@@ -178,8 +178,8 @@ public class ToolOnBackPressedTests extends BaseIntegrationTestClass {
 		mSolo.goBack();
 		assertTrue("Waiting for the exit dialog to appear", mSolo.waitForActivity("MainActivity"));
 		mSolo.clickOnButton(mSolo.getString(R.string.save_button_text));
-		mSolo.sleep(8000);
 		assertTrue("Waiting for the exit dialog to finish", mSolo.waitForActivity("MainActivity"));
+		mSolo.sleep(8000); // TODO WTF?
 		boolean hasStopped = PrivateAccess.getMemberValueBoolean(Activity.class, getActivity(), "mStopped");
 		assertTrue("MainActivity should be finished.", hasStopped);
 		fileToReturnToCatroid = new File(pathToFile);

@@ -240,7 +240,6 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		Button colorButton = mSolo.getButton(16);
 		assertTrue(colorButton.getParent() instanceof TableRow);
 		mSolo.clickOnButton(16);
-		mSolo.sleep(50);
 		mSolo.clickOnButton(getActivity().getResources().getString(R.string.done));
 	}
 
