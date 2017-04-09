@@ -268,7 +268,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		getToolButtonView(toolType).getLocationOnScreen(btnLocation);
 		float btnPos = btnLocation[0] + (getToolButtonView(toolType).getWidth() / 2.0f);
 
-		if (btnPos < scrollPosRight) {
+		if (btnPos <= scrollPosRight) {
 			toolButtonView =  getToolButtonView(toolType);
 		}
 
@@ -276,7 +276,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			mSolo.scrollViewToSide(scrollView, Solo.RIGHT);
 			getToolButtonView(toolType).getLocationOnScreen(btnLocation);
 			btnPos = btnLocation[0] + (getToolButtonView(toolType).getWidth() / 2.0f);
-			if (btnPos < scrollPosRight) {
+			if (btnPos <= scrollPosRight) {
 				toolButtonView = getToolButtonView(toolType);
 				break;
 			}
@@ -301,7 +301,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		getToolButtonView(toolType).getLocationOnScreen(btnLocation);
 		float btnPos = btnLocation[1] + (getToolButtonView(toolType).getHeight() / 2.0f);
 
-		if (btnPos < scrollPosBottom) {
+		if (btnPos <= scrollPosBottom) {
 			toolButtonView =  getToolButtonView(toolType);
 		}
 		float fromX, toX, fromY, toY = 0;
@@ -316,7 +316,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			mSolo.drag(fromX, toX, fromY, toY, stepCount);
 			getToolButtonView(toolType).getLocationOnScreen(btnLocation);
 			btnPos = btnLocation[1] + (getToolButtonView(toolType).getHeight() / 2.0f);
-			if (btnPos < scrollPosBottom) {
+			if (btnPos <= scrollPosBottom) {
 				toolButtonView = getToolButtonView(toolType);
 				break;
 			}
