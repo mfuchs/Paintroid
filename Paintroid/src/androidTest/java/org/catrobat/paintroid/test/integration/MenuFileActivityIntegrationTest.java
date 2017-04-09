@@ -85,7 +85,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		final int yCoordinatePixel = 0;
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_SLEEP);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		mCurrentDrawingSurfaceBitmap.setPixel(xCoordinatePixel, yCoordinatePixel, Color.BLACK);
 
@@ -112,7 +112,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testLoadImageDialog() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_SLEEP);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		openMenu();
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_load_image));
@@ -126,26 +126,26 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	@Test
 	public void testLoadImageDialogOnBackPressed() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_SLEEP);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		openMenu();
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_load_image));
 		mSolo.waitForDialogToOpen();
 		mSolo.goBack();
 		assertTrue("Waiting for DrawingSurface", mSolo.waitForView(DrawingSurface.class));
-
+		assertPixelAt("Nothing should have changed", screenPoint, Color.BLACK);
 	}
 
 	@Test
 	public void testWarningDialogOnNewImage() {
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_SLEEP);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		openMenu();
 		mSolo.clickOnText(mSolo.getString(R.string.menu_new_image));
 
-			assertTrue("Not-saved Dialog does not appear", mSolo.waitForText(mSolo.getString(R.string.dialog_warning_new_image)));
+		assertTrue("Not-saved Dialog does not appear", mSolo.waitForText(mSolo.getString(R.string.dialog_warning_new_image)));
 
 		assertTrue("New drawing 'yes' button not found",
 				mSolo.searchButton(mSolo.getString(R.string.save_button_text), true));
@@ -160,21 +160,18 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	public void testNewEmptyDrawingWithDiscard() {
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		openMenu();
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image));
-		//mSolo.waitForDialogToOpen();
-		//mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image_empty_image));
-
-		mSolo.waitForText(mSolo.getString(R.string.dialog_warning_new_image));
 
 		mSolo.clickOnButton(mSolo.getString(R.string.discard_button_text));
+		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image_empty_image));
 		mSolo.waitForDialogToClose();
 
 		assertFalse("New drawing warning still found",
 				mSolo.searchText(mSolo.getString(R.string.dialog_warning_new_image), 1, true, true));
-		assertNotSame("Bitmap pixel not changed:", Color.BLACK,
-				PaintroidApplication.drawingSurface.getPixel(Utils.getCanvasPointFromScreenPoint(new PointF(mScreenWidth / 2, mScreenHeight / 2))));
+		assertPixelAt("Bitmap should be clean again", screenPoint, Color.TRANSPARENT);
 	}
 
 	@Test
@@ -182,6 +179,7 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		selectTool(ToolType.BRUSH);
 		resetColorPicker();
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		openMenu();
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image));
@@ -195,33 +193,28 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.goBack();
 		assertFalse("New drawing warning still found",
 				mSolo.searchText(mSolo.getString(R.string.dialog_warning_new_image), 1, true, true));
-		assertEquals("Bitmap pixel changed:", Color.BLACK,
-				PaintroidApplication.drawingSurface.getPixel(Utils.getCanvasPointFromScreenPoint(new PointF(mScreenWidth / 2, mScreenHeight / 2))));
-
+		assertPixelAt("Bitmap pixel changed", screenPoint, Color.BLACK);
 	}
 
 	@Test
 	public void testSavedStateChangeAfterSave() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_TIMEOUT);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		assertFalse(PaintroidApplication.isSaved);
-		mSolo.sendKey(mSolo.MENU);
-		mSolo.sleep(SHORT_SLEEP);
 		openMenu();
-		mSolo.clickOnText(mSolo.getString(R.string.menu_save_image));
+		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
 
 		mSolo.waitForDialogToClose();
 
 		addUriToDeletionFileList(PaintroidApplication.savedPictureUri);
 		assertTrue(PaintroidApplication.isSaved);
-
 	}
 
 	@Test
 	public void testSaveImage() {
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SHORT_TIMEOUT);
+		assertPixelAt(screenPoint, Color.BLACK);
 
 		openMenu();
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_save_image));
