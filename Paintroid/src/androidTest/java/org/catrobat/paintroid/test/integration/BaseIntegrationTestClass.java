@@ -288,41 +288,32 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 	protected View verticalScrollToToolButton(ToolType toolType) {
 		ScrollView scrollView = (ScrollView) mSolo.getView(R.id.bottom_bar_landscape_scroll_view);
+		Rect scrollBounds = new Rect();
+		scrollView.getHitRect(scrollBounds);
+
 		int scrollBottom = 1;
 		int scrollTop = -1;
-		View toolButtonView = null;
 
 		while (scrollView.canScrollVertically(scrollTop)) {
 			scrollToolBarToTop();
 		}
 
-		float scrollPosBottom = scrollView.getY() + scrollView.getHeight();
-		int[] btnLocation = {0, 0};
-		getToolButtonView(toolType).getLocationOnScreen(btnLocation);
-		float btnPos = btnLocation[1] + (getToolButtonView(toolType).getHeight() / 2.0f);
-
-		if (btnPos <= scrollPosBottom) {
-			toolButtonView =  getToolButtonView(toolType);
-		}
-		float fromX, toX, fromY, toY = 0;
 		int stepCount = 20;
 		int screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
 		int screenHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight();
-		while (scrollView.canScrollVertically(scrollBottom) && toolButtonView == null) {
-			fromX = screenWidth -  scrollView.getWidth() / 2;
-			toX = fromX;
-			fromY = screenHeight / 2;
-			toY = screenHeight / 4 - screenHeight / 8;
+
+		float fromX = screenWidth -  scrollView.getWidth() / 2;
+		float toX = fromX;
+		float fromY = screenHeight / 2.0f;
+		float toY = screenHeight / 8.0f;
+
+		View toolButtonView = getToolButtonView(toolType);
+		while (!toolButtonView.getLocalVisibleRect(scrollBounds) && scrollView.canScrollVertically(scrollBottom)) {
 			mSolo.drag(fromX, toX, fromY, toY, stepCount);
-			getToolButtonView(toolType).getLocationOnScreen(btnLocation);
-			btnPos = btnLocation[1] + (getToolButtonView(toolType).getHeight() / 2.0f);
-			if (btnPos <= scrollPosBottom) {
-				toolButtonView = getToolButtonView(toolType);
-				break;
-			}
+			toolButtonView = getToolButtonView(toolType);
 		}
 
-		assertNotNull("Tool button not found " + toolType.name(), toolButtonView);
+		assertTrue("Tool button not found " + toolType.name(), toolButtonView.getLocalVisibleRect(scrollBounds));
 		return toolButtonView;
 	}
 
