@@ -239,7 +239,6 @@ public class MenuFileActivityIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	@Test
-	@Ignore("Broken")
 	public void testSaveCopy() {
 		assertNull(PaintroidApplication.savedPictureUri);
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
