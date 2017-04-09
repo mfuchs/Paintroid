@@ -160,10 +160,7 @@ public class LandscapeTest extends BaseIntegrationTestClass {
                 selectTool(tool);
             if(!getCurrentTool().getToolOptionsAreShown())
                 openToolOptionsForCurrentTool(tool);
-            mSolo.sleep(SHORT_SLEEP);
         }
-
-
     }
 
     @Test
