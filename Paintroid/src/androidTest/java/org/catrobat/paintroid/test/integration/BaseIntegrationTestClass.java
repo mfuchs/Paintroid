@@ -282,7 +282,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			}
 		}
 
-		assertNotNull("Tool button not found", toolButtonView);
+		assertNotNull("Tool button not found " + toolType.name(), toolButtonView);
 		return toolButtonView;
 	}
 
@@ -322,7 +322,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			}
 		}
 
-		assertNotNull("Tool button not found", toolButtonView);
+		assertNotNull("Tool button not found " + toolType.name(), toolButtonView);
 		return toolButtonView;
 	}
 
