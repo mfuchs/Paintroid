@@ -53,6 +53,7 @@ import org.catrobat.paintroid.dialog.IndeterminateProgressDialog;
 import org.catrobat.paintroid.dialog.colorpicker.ColorPickerDialog;
 import org.catrobat.paintroid.test.utils.PrivateAccess;
 import org.catrobat.paintroid.test.utils.SystemAnimations;
+import org.catrobat.paintroid.test.utils.Utils;
 import org.catrobat.paintroid.tools.Tool;
 import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.tools.implementation.BaseTool;
@@ -532,20 +533,24 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		return numberOfNotVisibleTools;
 	}
 
-	protected void assertPixelAt(String message, PointF pos, int expectedColor) {
-		HasColorAtPixel cond = new HasColorAtPixel(pos, expectedColor);
+	protected void assertPixelAt(PointF screenPoint, int expectedColor) {
+		assertPixelAt("Checking pixel at " + screenPoint + " (screen coordinates)", screenPoint, expectedColor);
+	}
+
+	protected void assertPixelAt(String message, PointF screenPoint, int expectedColor) {
+		HasColorAtPixel cond = new HasColorAtPixel(Utils.getCanvasPointFromScreenPoint(screenPoint), expectedColor);
 		mSolo.waitForCondition(cond, Timeout.getSmallTimeout());
 
 		assertEquals(message, expectedColor, cond.getActualColor());
 	}
 
 	private class HasColorAtPixel implements Condition  {
-		private PointF mPos;
+		private PointF mCanvasPoint;
 		private int mExpectedColor;
 		private int mActualColor;
 
-		public HasColorAtPixel(PointF pos, int expectedColor) {
-			mPos = pos;
+		public HasColorAtPixel(PointF canvasPoint, int expectedColor) {
+			mCanvasPoint = canvasPoint;
 			mExpectedColor = expectedColor;
 			mActualColor = 0;
 		}
@@ -556,7 +561,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 		@Override
 		public boolean isSatisfied() {
-			mActualColor = PaintroidApplication.drawingSurface.getPixel(mPos);
+			mActualColor = PaintroidApplication.drawingSurface.getPixel(mCanvasPoint);
 			return mActualColor == mExpectedColor;
 		}
 	}
