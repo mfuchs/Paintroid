@@ -175,7 +175,7 @@ public class ColorDialogIntegrationTest extends BaseIntegrationTestClass {
 
 		int oldColor = getCurrentTool().getDrawPaint().getColor();
 		openColorChooserDialog();
-		assertTrue("Waiting for DrawingSurface", mSolo.waitForText(mSolo.getString(R.string.done), 1, TIMEOUT * 2));
+		assertTrue("Waiting for DrawingSurface", mSolo.waitForText(mSolo.getString(R.string.done)));
 
 		TypedArray presetColors = getActivity().getResources().obtainTypedArray(R.array.preset_colors);
 

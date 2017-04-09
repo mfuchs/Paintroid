@@ -60,7 +60,7 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 	public void testShowLayerMenu() {
 		mSolo.clickOnView(mButtonTopLayer);
 		assertTrue("Layers dialog not visible",
-				mSolo.waitForText(mSolo.getString(R.string.layers_title), 1, TIMEOUT, true));
+				mSolo.waitForText(mSolo.getString(R.string.layers_title)));
 	}
 
 	@Test
@@ -297,13 +297,12 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image));
 		mSolo.waitForDialogToOpen();
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image_empty_image));
-		mSolo.waitForText(mSolo.getString(R.string.dialog_warning_new_image), 1, TIMEOUT, true);
+		mSolo.waitForText(mSolo.getString(R.string.dialog_warning_new_image));
 		mSolo.clickOnButton(mSolo.getString(R.string.discard_button_text));
 		mSolo.waitForDialogToClose();
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);
 		mSolo.clickOnView(mButtonTopLayer);
-		assertTrue("Layers dialog not visible",
-				mSolo.waitForText(mSolo.getString(R.string.layers_title), 1, TIMEOUT, true));
+		assertTrue("Layers dialog not visible", mSolo.waitForText(mSolo.getString(R.string.layers_title)));
 	}
 
 	@Test
@@ -318,13 +317,12 @@ public class LayerIntegrationTest extends BaseIntegrationTestClass {
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image));
 		mSolo.waitForDialogToOpen();
 		mSolo.clickOnMenuItem(mSolo.getString(R.string.menu_new_image_empty_image));
-		mSolo.waitForText(mSolo.getString(R.string.dialog_warning_new_image), 1, TIMEOUT, true);
+		mSolo.waitForText(mSolo.getString(R.string.dialog_warning_new_image));
 		mSolo.clickOnButton(mSolo.getString(R.string.save_button_text));
 		mSolo.waitForDialogToClose();
 		mSolo.clickOnScreen(mScreenWidth / 2, mScreenHeight / 3);
 		mSolo.clickOnView(mButtonTopLayer);
-		assertTrue("Layers dialog not visible",
-				mSolo.waitForText(mSolo.getString(R.string.layers_title), 1, TIMEOUT, true));
+		assertTrue("Layers dialog not visible", mSolo.waitForText(mSolo.getString(R.string.layers_title)));
 	}
 
 	@Test

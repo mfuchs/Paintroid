@@ -78,7 +78,6 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	protected static final int SHORT_SLEEP = 50;
 	protected static final int SHORT_TIMEOUT = 250;
 	protected static final int MEDIUM_TIMEOUT = 1000;
-	protected static final int TIMEOUT = 10000;
 	protected boolean mTestCaseWithActivityFinished = false;
 	protected Bitmap mCurrentDrawingSurfaceBitmap;
 	protected View mButtonAddLayer;
@@ -358,16 +357,12 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 	protected void openToolOptionsForCurrentTool() {
 		mSolo.clickOnView(getToolButtonView(getCurrentTool().getToolType()));
-		Condition toolOptionsAreShown = new Condition() {
+		assertTrue("opening tool options failed", mSolo.waitForCondition(new Condition() {
 			@Override
 			public boolean isSatisfied() {
-				if (toolOptionsAreShown()) {
-					return true;
-				}
-				return false;
+				return toolOptionsAreShown();
 			}
-		};
-		assertTrue("opening tool options failed", mSolo.waitForCondition(toolOptionsAreShown, TIMEOUT));
+		}, Timeout.getLargeTimeout()));
 	}
 
 	protected void openToolOptionsForCurrentTool(ToolType expectedCurrentToolType) {
@@ -378,16 +373,12 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	protected void closeToolOptionsForCurrentTool() {
 
 		mSolo.clickOnView(getToolButtonView(getCurrentTool().getToolType()));
-		Condition toolOptionsNotShown = new Condition() {
+		assertTrue("Closing tool options failed", mSolo.waitForCondition(new Condition() {
 			@Override
 			public boolean isSatisfied() {
-				if (toolOptionsAreShown()) {
-					return false;
-				}
-				return true;
+				return !toolOptionsAreShown();
 			}
-		};
-		assertTrue("Closing tool options failed", mSolo.waitForCondition(toolOptionsNotShown, TIMEOUT));
+		}, Timeout.getLargeTimeout()));
 	}
 
 	protected boolean toolOptionsAreShown() {

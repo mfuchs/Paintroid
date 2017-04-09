@@ -163,7 +163,7 @@ public class BrushPickerIntegrationTest extends BaseIntegrationTestClass {
 	public void testAntiAliasingOffAtBrushSize1() throws SecurityException, IllegalArgumentException,
 			NoSuchFieldException, IllegalAccessException {
 		openToolOptionsForCurrentTool(ToolType.BRUSH);
-		mSolo.waitForText(mSolo.getString(R.string.stroke_title), 1, TIMEOUT);
+		mSolo.waitForText(mSolo.getString(R.string.stroke_title));
 		mSolo.setProgressBar(0, 1);
 		closeToolOptionsForCurrentTool();
 

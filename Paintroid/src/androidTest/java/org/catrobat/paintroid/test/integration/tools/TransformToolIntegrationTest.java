@@ -30,6 +30,9 @@ import android.test.FlakyTest;
 import android.util.Log;
 import android.view.Display;
 
+import com.robotium.solo.Condition;
+import com.robotium.solo.Timeout;
+
 import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.R;
 import org.catrobat.paintroid.dialog.LayersDialog;
@@ -88,14 +91,14 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 	@After
 	public void tearDown() throws Exception {
 		// eat all toasts
-		final int resizeToastSleepingTime = 100;
-		for (int resizeToastTimeoutCounter = 0; resizeToastSleepingTime * resizeToastTimeoutCounter < TIMEOUT; resizeToastTimeoutCounter++) {
-			if (mSolo.waitForText(mSolo.getString(R.string.resize_to_resize_tap_text), 1, 10)
-					|| mSolo.waitForText(mSolo.getString(R.string.resize_nothing_to_resize), 1, 10))
-				mSolo.sleep(resizeToastSleepingTime);
-			else
-				break;
-		}
+		mSolo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return mSolo.waitForText(mSolo.getString(R.string.resize_to_resize_tap_text), 1, 10)
+						|| mSolo.waitForText(mSolo.getString(R.string.resize_nothing_to_resize), 1, 10);
+			}
+		}, Timeout.getLargeTimeout());
+
 		super.tearDown();
 	}
 
@@ -119,7 +122,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 		clickInBox();
 		assertTrue("nothing to crop text missing",
-				mSolo.waitForText(mSolo.getString(R.string.resize_nothing_to_resize), 1, TIMEOUT, true));
+				mSolo.waitForText(mSolo.getString(R.string.resize_nothing_to_resize)));
 
 	}
 
@@ -171,12 +174,11 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 
 		selectTool(ToolType.TRANSFORM);
 		assertTrue("to resize tap text missing",
-				mSolo.waitForText(mSolo.getString(R.string.resize_to_resize_tap_text), 1, TIMEOUT, true));
+				mSolo.waitForText(mSolo.getString(R.string.resize_to_resize_tap_text)));
 		assertTrue("Resize command has not finished", mSolo.waitForDialogToClose());
 
 		clickInBox();
-		assertTrue("nothing to resize text missing",
-				mSolo.waitForText(mSolo.getString(R.string.resize_nothing_to_resize), 1, TIMEOUT, true));
+		assertTrue("nothing to resize text missing", mSolo.waitForText(mSolo.getString(R.string.resize_nothing_to_resize)));
 	}
 
 	@Test
@@ -1132,7 +1134,7 @@ public class TransformToolIntegrationTest extends BaseIntegrationTestClass {
 	private void failWhenCroppingTimedOut() {
 		int croppingTimeoutCounter = hasCroppingTimedOut();
 		if (croppingTimeoutCounter >= 0) {
-			fail("Cropping algorithm took too long " + croppingTimeoutCounter * TIMEOUT + "ms");
+			fail("Cropping algorithm took too long " + croppingTimeoutCounter * Timeout.getLargeTimeout() + "ms");
 		}
 	}
 

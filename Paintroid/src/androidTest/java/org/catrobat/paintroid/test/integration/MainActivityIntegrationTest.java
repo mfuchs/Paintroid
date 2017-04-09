@@ -50,7 +50,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		String termsOfUseAndServiceTextExpected = getActivity().getString(R.string.terms_of_use_and_service_content);
 
 		assertTrue("Terms of Use and Service dialog text not correct, maybe Dialog not started as expected",
-				mSolo.waitForText(termsOfUseAndServiceTextExpected, 1, TIMEOUT, true, false));
+				mSolo.waitForText(termsOfUseAndServiceTextExpected));
 
 		mSolo.goBack();
 	}
@@ -67,7 +67,7 @@ public class MainActivityIntegrationTest extends BaseIntegrationTestClass {
 		aboutTextExpected = String.format(aboutTextExpected, licenseText);
 
 		assertTrue("About dialog text not correct, maybe Dialog not started as expected",
-				mSolo.waitForText(aboutTextExpected, 1, TIMEOUT, true, false));
+				mSolo.waitForText(aboutTextExpected));
 		mSolo.goBack();
 	}
 
