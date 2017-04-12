@@ -84,15 +84,7 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 	protected static final PorterDuffXfermode eraseXfermode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
 
 	static {
-		mBitmapPaint = new Paint();
-		mBitmapPaint.setColor(Color.BLACK);
-		mBitmapPaint.setAntiAlias(true);
-		mBitmapPaint.setDither(true);
-		mBitmapPaint.setStyle(Paint.Style.STROKE);
-		mBitmapPaint.setStrokeJoin(Paint.Join.ROUND);
-		mBitmapPaint.setStrokeCap(Paint.Cap.ROUND);
-		mBitmapPaint.setStrokeWidth(Tool.stroke25);
-		mCanvasPaint = new Paint(mBitmapPaint);
+		resetBrush();
 		Bitmap checkerboard = BitmapFactory.decodeResource(
 				PaintroidApplication.applicationContext.getResources(),
 				R.drawable.checkeredbg);
@@ -103,6 +95,18 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 				.getSystemService(Context.WINDOW_SERVICE);
 		mScrollTolerance = windowManager.getDefaultDisplay().getWidth()
 				* SCROLL_TOLERANCE_PERCENTAGE / 100;
+	}
+
+	static public void resetBrush() {
+		mBitmapPaint = new Paint();
+		mBitmapPaint.setColor(Color.BLACK);
+		mBitmapPaint.setAntiAlias(true);
+		mBitmapPaint.setDither(true);
+		mBitmapPaint.setStyle(Paint.Style.STROKE);
+		mBitmapPaint.setStrokeJoin(Paint.Join.ROUND);
+		mBitmapPaint.setStrokeCap(Paint.Cap.ROUND);
+		mBitmapPaint.setStrokeWidth(Tool.stroke25);
+		mCanvasPaint = new Paint(mBitmapPaint);
 	}
 
 	public BaseTool(Context context, ToolType toolType) {

@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -35,6 +36,8 @@ import android.widget.TableRow;
 import android.widget.ToggleButton;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.robotium.solo.Condition;
+import com.robotium.solo.Timeout;
 
 import org.catrobat.paintroid.PaintroidApplication;
 import org.catrobat.paintroid.R;
@@ -333,7 +336,7 @@ public class TextToolIntegrationTest extends BaseIntegrationTestClass {
 		setToolMemberBoxPosition(canvasPoint);
 
 		mSolo.clickOnScreen(screenPoint.x, screenPoint.y);
-		mSolo.sleep(SLEEP_WAIT_FOR_EXECUTING_COMMAND);
+		mSolo.sleep(SLEEP_WAIT_FOR_EXECUTING_COMMAND); // TODO wait for color here!
 		mSolo.goBack();
 
 		int surfaceBitmapWidth = PaintroidApplication.drawingSurface.getBitmapWidth();
@@ -379,7 +382,10 @@ public class TextToolIntegrationTest extends BaseIntegrationTestClass {
 		Button colorButton = mSolo.getButton(5);
 		assertTrue(colorButton.getParent() instanceof TableRow);
 		mSolo.clickOnButton(5);
-		mSolo.sleep(SLEEP_WAIT_FOR_DIALOG_UPDATE_AND_LISTENER);
+		mSolo.sleep(SLEEP_WAIT_FOR_DIALOG_UPDATE_AND_LISTENER); // TODO wait for button to change color!
+		ColorDrawable drawable = (ColorDrawable) colorButton.getBackground(); // TODO something like this 1
+		drawable.getColor(); // TODO 2
+
 		closeColorChooserDialog();
 
 		Paint paint = (Paint) PrivateAccess.getMemberValue(TextTool.class, mTextTool, "mTextPaint");
@@ -400,7 +406,7 @@ public class TextToolIntegrationTest extends BaseIntegrationTestClass {
 		colorButton = mSolo.getButton(16);
 		assertTrue(colorButton.getParent() instanceof TableRow);
 		mSolo.clickOnButton(16);
-		mSolo.sleep(SLEEP_WAIT_FOR_DIALOG_UPDATE_AND_LISTENER);
+		mSolo.sleep(SLEEP_WAIT_FOR_DIALOG_UPDATE_AND_LISTENER); // TODO wait for button to change color!
 		closeColorChooserDialog();
 
 	}
@@ -499,15 +505,13 @@ public class TextToolIntegrationTest extends BaseIntegrationTestClass {
 	}
 
 	private void enterTestText() {
-		getInstrumentation().sendStringSync(TEST_TEXT);
-		mSolo.sleep(SHORT_SLEEP);
-		assertEquals("Writing test text did not work", TEST_TEXT, mTextEditText.getText().toString());
+		mSolo.enterText(mTextEditText, TEST_TEXT);
+		assertTrue("Writing test text did not work", mSolo.waitForText(TEST_TEXT));
 	}
 
 	private void enterMultilineTestText() {
-		getInstrumentation().sendStringSync(TEST_TEXT_MULTILINE);
-		mSolo.sleep(SHORT_SLEEP);
-		assertEquals("Writing test text did not work", TEST_TEXT_MULTILINE, mTextEditText.getText().toString());
+		mSolo.enterText(mTextEditText, TEST_TEXT_MULTILINE);
+		assertTrue("Writing test text did not work", mSolo.waitForText(TEST_TEXT_MULTILINE));
 	}
 
 	private void selectFormatting(FormattingOptions format) {

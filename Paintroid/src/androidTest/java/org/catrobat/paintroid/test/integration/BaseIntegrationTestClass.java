@@ -26,6 +26,8 @@ import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.v4.widget.DrawerLayout;
@@ -59,6 +61,7 @@ import org.catrobat.paintroid.tools.ToolType;
 import org.catrobat.paintroid.tools.implementation.BaseTool;
 import org.catrobat.paintroid.ui.DrawingSurface;
 import org.catrobat.paintroid.ui.Perspective;
+import org.catrobat.paintroid.ui.button.ColorButton;
 import org.junit.After;
 import org.junit.Before;
 
@@ -72,7 +75,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	private SystemAnimations systemAnimations;
 	protected ImageButton mButtonTopUndo;
 	protected ImageButton mButtonTopRedo;
-	protected ImageButton mButtonTopColor;
+	protected ColorButton mButtonTopColor;
 	protected View mButtonTopLayer;
 	protected int mScreenWidth;
 	protected int mScreenHeight;
@@ -123,7 +126,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			Log.d("Paintroid test", "setup" + setup++);
 			mButtonTopUndo = (ImageButton) getActivity().findViewById(R.id.btn_top_undo);
 			mButtonTopRedo = (ImageButton) getActivity().findViewById(R.id.btn_top_redo);
-			mButtonTopColor = (ImageButton) getActivity().findViewById(R.id.btn_top_color);
+			mButtonTopColor = (ColorButton) getActivity().findViewById(R.id.btn_top_color);
 			mButtonTopLayer = getActivity().findViewById(R.id.btn_top_layers);
 			mButtonAddLayer = getActivity().findViewById(R.id.mButtonLayerNew);
 			mButtonDeleteLayer = (ImageButton) getActivity().findViewById(R.id.mButtonLayerDelete);
@@ -139,6 +142,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			mCurrentDrawingSurfaceBitmap = (Bitmap) PrivateAccess.getMemberValue(DrawingSurface.class,
 					PaintroidApplication.drawingSurface, "mWorkingBitmap");
 
+			BaseTool.resetBrush();
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("setup failed" + e.toString());
@@ -171,6 +175,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 
 		IndeterminateProgressDialog.getInstance().dismiss();
 		ColorPickerDialog.getInstance().dismiss();
+		mButtonTopColor.colorChanged(Color.BLACK);
 
 		mSolo.sleep(SHORT_SLEEP);
 
@@ -383,19 +388,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		paint.setStrokeCap(DEFAULT_BRUSH_CAP);
 		paint.setColor(DEFAULT_COLOR);
 		try {
-			((Paint) PrivateAccess.getMemberValue(BaseTool.class, PaintroidApplication.currentTool, "mCanvasPaint"))
-					.setStrokeWidth(DEFAULT_BRUSH_WIDTH);
-			((Paint) PrivateAccess.getMemberValue(BaseTool.class, PaintroidApplication.currentTool, "mCanvasPaint"))
-					.setStrokeCap(DEFAULT_BRUSH_CAP);
-			((Paint) PrivateAccess.getMemberValue(BaseTool.class, PaintroidApplication.currentTool, "mCanvasPaint"))
-					.setColor(DEFAULT_COLOR);
-
-			((Paint) PrivateAccess.getMemberValue(BaseTool.class, PaintroidApplication.currentTool, "mBitmapPaint"))
-					.setStrokeWidth(DEFAULT_BRUSH_WIDTH);
-			((Paint) PrivateAccess.getMemberValue(BaseTool.class, PaintroidApplication.currentTool, "mBitmapPaint"))
-					.setStrokeCap(DEFAULT_BRUSH_CAP);
-			((Paint) PrivateAccess.getMemberValue(BaseTool.class, PaintroidApplication.currentTool, "mBitmapPaint"))
-					.setColor(DEFAULT_COLOR);
+			BaseTool.resetBrush();
 
 			PrivateAccess.setMemberValue(BaseTool.class, PaintroidApplication.currentTool, "mColorPickerDialog", null);
 			PrivateAccess.setMemberValue(BaseTool.class, PaintroidApplication.currentTool, "mBrushPickerDialog", null);
