@@ -19,6 +19,7 @@
 
 package org.catrobat.paintroid.test.integration;
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -142,7 +143,8 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 			mCurrentDrawingSurfaceBitmap = (Bitmap) PrivateAccess.getMemberValue(DrawingSurface.class,
 					PaintroidApplication.drawingSurface, "mWorkingBitmap");
 
-			BaseTool.resetBrush();
+//			ColorPickerDialog.getInstance().updateColorChange(Color.BLACK);
+//			BaseTool.resetBrush();
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("setup failed" + e.toString());
@@ -173,9 +175,24 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		int step = 0;
 		Log.i(PaintroidApplication.TAG, "td " + step++);
 
+		// TODO add color picker listener to ColorPickerDialog, it recognises when it is called by setting called to true
+		// then remove it after calling udpateColorChange and finally wait for the flat got be set to true, i.e. it was called and everything is updated!
+
+		try {
+			runTestOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					ColorPickerDialog.getInstance().updateColorChange(Color.BLACK); // TODO works great! check what is done in there to do it manually, maybe add a reset function!
+				}
+			});
+		} catch (Throwable throwable) { // TODO no catching???
+			throwable.printStackTrace();
+		}
+		mSolo.sleep(SHORT_SLEEP); // TODO wait for result???
+
 		IndeterminateProgressDialog.getInstance().dismiss();
-		ColorPickerDialog.getInstance().dismiss();
-		mButtonTopColor.colorChanged(Color.BLACK);
+		ColorPickerDialog.getInstance().dismiss(); // TODO call in gui thread!
+//		mButtonTopColor.colorChanged(Color.BLACK);
 
 		mSolo.sleep(SHORT_SLEEP);
 
@@ -184,7 +201,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		mButtonTopColor = null;
 		mButtonTopLayer = null;
 
-		resetBrush();
+//		resetBrush();
 		if (mCurrentDrawingSurfaceBitmap != null && !mCurrentDrawingSurfaceBitmap.isRecycled())
 			mCurrentDrawingSurfaceBitmap.recycle();
 		mCurrentDrawingSurfaceBitmap = null;
@@ -383,7 +400,7 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 	}
 
 	protected void resetBrush() {
-		Paint paint = PaintroidApplication.currentTool.getDrawPaint();
+		Paint paint = PaintroidApplication.currentTool.getDrawPaint(); // TODO this is crap?! because a copy is created of all the ints, they do not point to the same thing???
 		paint.setStrokeWidth(DEFAULT_BRUSH_WIDTH);
 		paint.setStrokeCap(DEFAULT_BRUSH_CAP);
 		paint.setColor(DEFAULT_COLOR);

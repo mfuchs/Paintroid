@@ -65,8 +65,8 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 
 	private static final int BACKGROUND_DEACTIVATED_DRAWING_SURFACE = Color.argb(0x80, 0, 0, 0);
 
-	protected static Paint mBitmapPaint;
-	protected static Paint mCanvasPaint;
+	protected static Paint mBitmapPaint = new Paint();
+	protected static Paint mCanvasPaint = new Paint();
 	protected static boolean mToolOptionsShown = false;
 
 	protected static LinearLayout mToolSpecificOptionsLayout;
@@ -98,7 +98,6 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 	}
 
 	static public void resetBrush() {
-		mBitmapPaint = new Paint();
 		mBitmapPaint.setColor(Color.BLACK);
 		mBitmapPaint.setAntiAlias(true);
 		mBitmapPaint.setDither(true);
@@ -106,7 +105,12 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 		mBitmapPaint.setStrokeJoin(Paint.Join.ROUND);
 		mBitmapPaint.setStrokeCap(Paint.Cap.ROUND);
 		mBitmapPaint.setStrokeWidth(Tool.stroke25);
-		mCanvasPaint = new Paint(mBitmapPaint);
+
+		mCanvasPaint.set(mBitmapPaint);
+
+		// TODO WTF, why does this not work
+
+		// TODO maybe call changePaintColor ???
 	}
 
 	public BaseTool(Context context, ToolType toolType) {
@@ -134,8 +138,8 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 		};
 
 		BrushPickerView.getInstance().addBrushChangedListener(mStroke);
-		BrushPickerView.getInstance().setCurrentPaint(mBitmapPaint);
-		ColorPickerDialog.getInstance().addOnColorPickedListener(mColor);
+		BrushPickerView.getInstance().setCurrentPaint(mBitmapPaint); // TODO is this a problem???
+		ColorPickerDialog.getInstance().addOnColorPickedListener(mColor); // TODO hook into this and activate all if it exists??
 
 		mMovedDistance = new PointF(0f, 0f);
 		mPreviousEventCoordinate = new PointF(0f, 0f);
@@ -197,7 +201,7 @@ public abstract class BaseTool extends Observable implements Tool, Observer {
 
 	@Override
 	public Paint getDrawPaint() {
-		return new Paint(mBitmapPaint);
+		return mBitmapPaint;
 	}
 
 	@Override

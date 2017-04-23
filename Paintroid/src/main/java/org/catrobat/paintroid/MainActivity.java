@@ -104,7 +104,12 @@ public class MainActivity extends NavigationDrawerMenuActivity implements  Navig
 		}
 
 
+
+
+//		BaseTool.resetBrush();
 		ColorPickerDialog.init(this);
+//		ColorPickerDialog.getInstance().updateColorChange(Color.BLACK);
+
 		IndeterminateProgressDialog.init(this);
 
 		BrushPickerView.init(this);
