@@ -66,6 +66,8 @@ import org.catrobat.paintroid.ui.button.ColorButton;
 import org.junit.After;
 import org.junit.Before;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	private static final int DEFAULT_BRUSH_WIDTH = 25;
@@ -178,23 +180,38 @@ public class BaseIntegrationTestClass extends ActivityInstrumentationTestCase2<M
 		// TODO add color picker listener to ColorPickerDialog, it recognises when it is called by setting called to true
 		// then remove it after calling udpateColorChange and finally wait for the flat got be set to true, i.e. it was called and everything is updated!
 
+		final AtomicBoolean colorResetted = new AtomicBoolean(false);
+
 		try {
 			runTestOnUiThread(new Runnable() {
 				@Override
 				public void run() {
 					ColorPickerDialog.getInstance().updateColorChange(Color.BLACK); // TODO works great! check what is done in there to do it manually, maybe add a reset function!
+					colorResetted.set(true);
+					IndeterminateProgressDialog.getInstance().dismiss();
+					ColorPickerDialog.getInstance().dismiss();
 				}
 			});
 		} catch (Throwable throwable) { // TODO no catching???
 			throwable.printStackTrace();
 		}
-		mSolo.sleep(SHORT_SLEEP); // TODO wait for result???
 
-		IndeterminateProgressDialog.getInstance().dismiss();
-		ColorPickerDialog.getInstance().dismiss(); // TODO call in gui thread!
+		mSolo.waitForCondition(new Condition() {
+			@Override
+			public boolean isSatisfied() {
+				return colorResetted.get() &&
+						!IndeterminateProgressDialog.getInstance().isShowing() &&
+						!ColorPickerDialog.getInstance().isShowing();
+			}
+		}, Timeout.getSmallTimeout());
+
+//		mSolo.sleep(SHORT_SLEEP); // TODO wait for result???
+
+//		IndeterminateProgressDialog.getInstance().dismiss();
+//		ColorPickerDialog.getInstance().dismiss(); // TODO call in gui thread!
 //		mButtonTopColor.colorChanged(Color.BLACK);
 
-		mSolo.sleep(SHORT_SLEEP);
+//		mSolo.sleep(SHORT_SLEEP);
 
 		mButtonTopUndo = null;
 		mButtonTopRedo = null;
