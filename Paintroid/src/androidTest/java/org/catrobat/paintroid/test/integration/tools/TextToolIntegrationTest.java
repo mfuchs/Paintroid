@@ -383,8 +383,8 @@ public class TextToolIntegrationTest extends BaseIntegrationTestClass {
 		assertTrue(colorButton.getParent() instanceof TableRow);
 		mSolo.clickOnButton(5);
 		mSolo.sleep(SLEEP_WAIT_FOR_DIALOG_UPDATE_AND_LISTENER); // TODO wait for button to change color!
-		ColorDrawable drawable = (ColorDrawable) colorButton.getBackground(); // TODO something like this 1
-		drawable.getColor(); // TODO 2
+//		ColorDrawable drawable = (ColorDrawable) colorButton.getBackground(); // TODO something like this 1
+//		drawable.getColor(); // TODO 2
 
 		closeColorChooserDialog();
 
