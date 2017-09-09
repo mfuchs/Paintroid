@@ -127,16 +127,15 @@ dependencies {
 
 }
 
-if (project.hasProperty('jenkins')) {
-    project.android.dexOptions.preDexLibraries = false
-} else {
-    tasks.whenTaskAdded { task ->
-        if(task.name.startsWith('assembleDebugAndroidTest')) {
-            verifyAnimationScalePermissionGranted.shouldRunAfter adbGrantAnimationScalePermission
+tasks.whenTaskAdded { task ->
+    if(task.name.startsWith('assembleDebugAndroidTest')) {
+        verifyAnimationScalePermissionGranted.shouldRunAfter adbGrantAnimationScalePermission
 
-            task.dependsOn adbGrantAnimationScalePermission
-            task.dependsOn verifyAnimationScalePermissionGranted
-        }
+        task.dependsOn adbGrantAnimationScalePermission
+        task.dependsOn verifyAnimationScalePermissionGranted
     }
 }
 
+if (project.hasProperty('jenkins')) {
+    project.android.dexOptions.preDexLibraries = false
+}
