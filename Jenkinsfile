@@ -102,37 +102,5 @@ pipeline {
 				}
 			}
 		}
-
-		stage('Build Debug-APK') {
-			steps {
-				sh "./buildScripts/build_step_create_debug_apk"
-				stash name: "debug-apk", includes: "${env.APK_LOCATION_DEBUG}"
-				archiveArtifacts "${env.APK_LOCATION_DEBUG}"
-			}
-		}
-
-		stage('Upload to share') {
-			when {
-				branch "${env.CATROBAT_SHARE_UPLOAD_BRANCH}"
-			}
-
-			steps {
-				unstash "debug-apk"
-				script {
-					uploadFileToShare "${env.APK_LOCATION_DEBUG}", "${env.CATROBAT_SHARE_APK_NAME}"
-				}
-			}
-		}
-	}
-
-	post {
-		always {
-			step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-
-			// Send notifications with standalone=false
-			script {
-				sendNotifications false
-			}
-		}
 	}
 }
