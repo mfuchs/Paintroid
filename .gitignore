@@ -27,3 +27,10 @@ build/
 
 # Cache for build scripts
 __pycache__
+
+# Files generated on Jenkins.
+# Ignoring them is useful so that git clean does not remove them.
+# That way the generated avd is kept around and reused during build-runs.
+last_unique_avd_name.tmp
+*.ini
+*.avd
