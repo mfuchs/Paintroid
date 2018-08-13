@@ -132,7 +132,7 @@ pipeline {
 			steps {
 				unstash "debug-apk"
 				script {
-					uploadFileToShare "${env.APK_LOCATION_DEBUG}", "${env.CATROBAT_SHARE_APK_NAME}"
+					iAmUnknown "${env.APK_LOCATION_DEBUG}", "${env.CATROBAT_SHARE_APK_NAME}"
 				}
 			}
 		}
