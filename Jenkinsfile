@@ -27,7 +27,7 @@ def dockerfileClosure = {
 }
 
 pipeline {
-	agent { dockerfile(dockerfileClosure) }
+	agent { dockerfile { dockerfileClosure } }
 
 	environment {
 		//////// Define environment variables to point to the correct locations inside the container ////////
