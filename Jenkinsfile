@@ -1,5 +1,19 @@
 #!groovy
 
+@NonCPS
+boolean wusa()
+{
+	for (def buildCause in currentBuild.rawBuild.causes) {
+		if (buildCause?.shortDescription?.contains('Started by timer')) {
+			return true
+		}
+	}
+
+	false
+}
+
+
+
 pipeline {
 	agent {
 		dockerfile {
@@ -72,79 +86,22 @@ pipeline {
 	}
 
     triggers {
-        cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
+        cron('5 * * * *')
     }
 
 	stages {
-		stage('Setup Android SDK') {
+		stage('stage 1') {
 			steps {
-				// Install Android SDK
-				lock("update-android-sdk-on-${env.NODE_NAME}") {
-					sh "./buildScripts/build_step_install_android_sdk"
-				}
+				echo 'Stage 1'
 			}
 		}
 
-		stage('Static Analysis') {
+		stage('stage 2') {
+			when {
+				expression { wusa() }
+			}
 			steps {
-				sh "./buildScripts/build_step_run_static_analysis"
-			}
-
-			post {
-				always {
-					pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-					checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-					androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
-				}
-			}
-		}
-
-		stage('Unit and Device tests') {
-			steps {
-				// Run local unit tests
-				sh "./buildScripts/build_step_run_unit_tests__all_tests"
-				// Convert the JaCoCo coverate to the Cobertura XML file format.
-				// This is done since the Jenkins JaCoCo plugin does not work well.
-				// See also JENKINS-212 on jira.catrob.at
-				sh "if [ -f '$JACOCO_UNIT_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_UNIT_XML > $JAVA_SRC/coverage1.xml; fi"
-				// ensure that the following test run does not overwrite the results
-				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build ${env.GRADLE_PROJECT_MODULE_NAME}/build-unittest"
-
-				// Run device tests
-				sh "./buildScripts/build_step_run_tests_on_emulator__all_tests"
-
-				// Convert the JaCoCo coverate to the Cobertura XML file format.
-				// This is done since the Jenkins JaCoCo plugin does not work well.
-				// See also JENKINS-212 on jira.catrob.at
-				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
-			}
-
-			post {
-				always {
-					junit '**/*TEST*.xml'
-					step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
-
-					// stop/kill emulator
-					sh "./buildScripts/build_helper_stop_emulator"
-				}
-			}
-		}
-
-		stage('Build Debug-APK') {
-			steps {
-				sh "./buildScripts/build_step_create_debug_apk"
-				archiveArtifacts "${env.APK_LOCATION_DEBUG}"
-			}
-		}
-	}
-
-	post {
-		always {
-			step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-
-			// Send notifications with standalone=false
-			script {
-				sendNotifications false
+				echo 'stage 2'
 			}
 		}
 	}
