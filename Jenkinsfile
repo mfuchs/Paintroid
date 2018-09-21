@@ -3,13 +3,9 @@
 @NonCPS
 boolean wusa()
 {
-	for (def buildCause in currentBuild.rawBuild.causes) {
-		if (buildCause?.shortDescription?.contains('Started by timer')) {
-			return true
-		}
+	currentBuild.rawBuild.causes.any {
+		it?.shortDescription?.contains('Started by timer')
 	}
-
-	false
 }
 
 
