@@ -82,7 +82,7 @@ pipeline {
 	}
 
     triggers {
-        cron('5 * * * *')
+        cron('*/2 * * * *')
     }
 
 	stages {
@@ -94,7 +94,7 @@ pipeline {
 
 		stage('stage 2') {
 			when {
-				expression { wusa() }
+				expression { isJobStartedByTimer() }
 			}
 			steps {
 				echo 'stage 2'
