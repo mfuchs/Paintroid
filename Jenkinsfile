@@ -118,8 +118,7 @@ pipeline {
 			post {
 				always {
 					junit '**/*TEST*.xml'
-					publishCoverage adapters: [jacocoAdapter(env.JACOCO_UNIT_XML)], sourceFileResolver: sourceFiles('STORE_ALL_BUILD'), tag: 't'
-					publishCoverage adapters: [jacocoAdapter(env.JACOCO_XML)], sourceFileResolver: sourceFiles('STORE_ALL_BUILD'), tag: 't'
+					publishCoverage adapters: [jacocoAdapter(env.JACOCO_UNIT_XML), jacocoAdapter(env.JACOCO_XML)], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
 
 					sh './gradlew stopEmulator'
 					archiveArtifacts 'logcat.txt'
