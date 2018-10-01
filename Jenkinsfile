@@ -103,6 +103,7 @@ pipeline {
 			steps {
 				// Run local unit tests
 				sh './gradlew -PenableCoverage -Pjenkins jacocoTestDebugUnitTestReport'
+				sh "if [ -f '$JACOCO_UNIT_XML' ]; then mv $JACOCO_UNIT_XML $JAVA_SRC/coverage1.xml; fi"
 
 				// Run device tests
 				sh '''
@@ -110,15 +111,13 @@ pipeline {
 					./gradlew -PenableCoverage -Pjenkins createDebugCoverageReport || true
 					./gradlew adbResetAnimationsGlobally retrieveLogcat
 				'''
-
-				sh "if [ -f '$JACOCO_UNIT_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_UNIT_XML > $JAVA_SRC/coverage1.xml; fi"
-				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
+				sh "if [ -f '$JACOCO_XML' ]; then mv $JACOCO_XML $JAVA_SRC/coverage2.xml; fi"
 			}
 
 			post {
 				always {
 					junit '**/*TEST*.xml'
-					publishCoverage adapters: [jacocoAdapter(env.JACOCO_UNIT_XML), jacocoAdapter(env.JACOCO_XML)], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
+					publishCoverage adapters: [jacocoAdapter("$JAVA_SRC/coverage*.xml")], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
 
 					sh './gradlew stopEmulator'
 					archiveArtifacts 'logcat.txt'
