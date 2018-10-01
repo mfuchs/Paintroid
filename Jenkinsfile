@@ -102,30 +102,24 @@ pipeline {
 		stage('Unit and Device tests') {
 			steps {
 				// Run local unit tests
-				sh './gradlew -PenableCoverage -Pjenkins clean jacocoTestDebugUnitTestReport'
-				// Convert the JaCoCo coverate to the Cobertura XML file format.
-				// This is done since the Jenkins JaCoCo plugin does not work well.
-				// See also JENKINS-212 on jira.catrob.at
-				sh "if [ -f '$JACOCO_UNIT_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_UNIT_XML > $JAVA_SRC/coverage1.xml; fi"
-				// ensure that the following test run does not overwrite the results
-				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build ${env.GRADLE_PROJECT_MODULE_NAME}/build-unittest"
+				sh './gradlew -PenableCoverage -Pjenkins jacocoTestDebugUnitTestReport'
 
 				// Run device tests
 				sh '''
 					./gradlew startEmulator adbDisableAnimationsGlobally
-					./gradlew -PenableCoverage -Pjenkins clean createDebugCoverageReport || true
+					./gradlew -PenableCoverage -Pjenkins createDebugCoverageReport || true
 					./gradlew adbResetAnimationsGlobally retrieveLogcat
 				'''
-				// Convert the JaCoCo coverate to the Cobertura XML file format.
-				// This is done since the Jenkins JaCoCo plugin does not work well.
-				// See also JENKINS-212 on jira.catrob.at
+
+				sh "if [ -f '$JACOCO_UNIT_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_UNIT_XML > $JAVA_SRC/coverage1.xml; fi"
 				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
 			}
 
 			post {
 				always {
 					junit '**/*TEST*.xml'
-					step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
+					publishCoverage adapters: [jacocoAdapter(env.JACOCO_UNIT_XML)], tag: 't'
+					publishCoverage adapters: [jacocoAdapter(env.JACOCO_XML)], tag: 't'
 
 					sh './gradlew stopEmulator'
 					archiveArtifacts 'logcat.txt'
