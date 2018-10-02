@@ -19,8 +19,8 @@ pipeline {
 
 			post {
 				always {
-					publishCoverage adapters: [jacocoAdapter("report1.xml")], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
-					publishCoverage adapters: [jacocoAdapter("report2.xml")], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
+					publishCoverage adapters: [jacocoAdapter("report1.xml")], sourceFileResolver: sourceFiles('STORE_ALL_BUILD'), tag: "foo"
+					publishCoverage adapters: [jacocoAdapter("report2.xml")], sourceFileResolver: sourceFiles('STORE_ALL_BUILD'), tag: "foo"
 
 				}
 			}
