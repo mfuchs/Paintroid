@@ -13,25 +13,14 @@ pipeline {
 
 	stages {
 
-		stage('Unit and Device tests 2') {
+		stage('Unit and Device tests') {
 			steps {
 			    sh "cp 2/report.xml ."
 			}
 
 			post {
 				always {
-					publishCoverage adapters: [jacocoAdapter("report2.xml")], sourceFileResolver: sourceFiles('STORE_ALL_BUILD'), tag: "foo"
-				}
-			}
-		}
-		stage('Unit and Device tests') {
-			steps {
-			    sh "cp 1/report.xml ."
-			}
-
-			post {
-				always {
-					publishCoverage adapters: [jacocoAdapter("report1.xml")], sourceFileResolver: sourceFiles('STORE_ALL_BUILD'), tag: "foo"
+					publishCoverage adapters: [jacocoAdapter("**/report.xml")], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
 				}
 			}
 		}
