@@ -1,7 +1,9 @@
 #!groovy
 
 pipeline {
-	agent any
+	agent {
+		docker { image 'openjdk:8-jdk' }
+	}
 
 	options {
 		timeout(time: 2, unit: 'HOURS')
