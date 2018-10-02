@@ -12,9 +12,10 @@ pipeline {
 	}
 
 	stages {
-		stage('Unit and Device tests') {
+
+		stage('Unit and Device tests 2') {
 			steps {
-			    sh "cp 1/report.xml ."
+			    sh "cp 2/report.xml ."
 			}
 
 			post {
@@ -23,10 +24,9 @@ pipeline {
 				}
 			}
 		}
-
-		stage('Unit and Device tests 2') {
+		stage('Unit and Device tests') {
 			steps {
-			    sh "cp 2/report.xml ."
+			    sh "cp 1/report.xml ."
 			}
 
 			post {
