@@ -2,10 +2,7 @@
 
 pipeline {
 	agent {
-		docker {
-			image 'openjdk:8-jdk'
-			label 'master'
-		}
+		label 'master'
 	}
 
 	options {
