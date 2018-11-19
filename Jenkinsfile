@@ -51,6 +51,8 @@ pipeline {
 	stages {
 		stage('Static Analysis') {
 			steps {
+			    echo "FOO"
+			    sh 'ps aux | grep gradle'
 				sh './gradlew clean pmd checkstyle lint'
 			}
 
