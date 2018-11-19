@@ -66,6 +66,7 @@ pipeline {
 		stage('Unit and Device tests') {
 			steps {
 				script {
+				    echo "ABCDE"
 					def splits = splitTests parallelism: count(2)
 					echo "##### $splits[0]"
 					echo "##### $splits[1]"
