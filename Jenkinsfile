@@ -65,6 +65,12 @@ pipeline {
 
 		stage('Unit and Device tests') {
 			steps {
+				script {
+					def splits = splitTests parallelism: count(2)
+					echo "##### $splits[0]"
+					echo "##### $splits[1]"
+				}
+
 				// Run local unit tests
 				sh './gradlew -PenableCoverage -Pjenkins clean jacocoTestDebugUnitTestReport'
 				// Convert the JaCoCo coverate to the Cobertura XML file format.
@@ -80,6 +86,12 @@ pipeline {
 				// This is done since the Jenkins JaCoCo plugin does not work well.
 				// See also JENKINS-212 on jira.catrob.at
 				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
+
+				script {
+					def splits = splitTests parallelism: count(2)
+					echo "#####B $splits[0]"
+					echo "#####B $splits[1]"
+				}
 			}
 
 			post {
