@@ -53,7 +53,6 @@ pipeline {
 
 		stage('Build Debug-APK') {
 			steps {
-				stash name: 'src', useDefaultExcludes: false
 				sh './gradlew clean assembleDebug'
 				archiveArtifacts "${env.APK_LOCATION_DEBUG}"
 			}
@@ -104,9 +103,6 @@ pipeline {
 						}
 					}
 					steps {
-						cleanWs()
-						unstash 'src'
-
 						writeFile file: 'testexclusions.txt', text: testSplits[0].join('\n')
 
 						// Run device tests
@@ -136,9 +132,6 @@ pipeline {
 						}
 					}
 					steps {
-						cleanWs()
-						unstash 'src'
-
 						writeFile file: 'testexclusions.txt', text: testSplits[1].join('\n')
 
 						// Run device tests
