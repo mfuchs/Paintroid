@@ -1,6 +1,6 @@
 #!groovy
 
-def splitsa = splitTests parallelism: count(2)
+def testSplits = splitTests parallelism: count(2)
 
 pipeline {
 	agent {
@@ -50,10 +50,18 @@ pipeline {
 	}
 
 	stages {
+
+		stage('Build Debug-APK') {
+			steps {
+				stash name: 'src', useDefaultExcludes: false
+				sh './gradlew clean assembleDebug'
+				archiveArtifacts "${env.APK_LOCATION_DEBUG}"
+			}
+		}
 		stage('Static Analysis') {
 			steps {
-			    echo "FOO"
-			    sh 'ps aux | grep gradle'
+				echo 'FOO'
+				sh 'ps aux | grep gradle'
 				sh './gradlew --status'
 				sh './gradlew clean pmd checkstyle lint'
 			}
@@ -67,51 +75,89 @@ pipeline {
 			}
 		}
 
-		stage('Unit and Device tests') {
+		stage('Unit Test') {
 			steps {
-				script {
-				    echo "ABCDE"
-					def splits = splitTests parallelism: count(2)
-					echo "##### ${splits[0]}"
-					echo "##### ${splits[1]}"
-					echo "#####A ${splitsa[0]}"
-				}
-
 				// Run local unit tests
 				sh './gradlew -PenableCoverage -Pjenkins clean jacocoTestDebugUnitTestReport'
 				// Convert the JaCoCo coverate to the Cobertura XML file format.
 				// This is done since the Jenkins JaCoCo plugin does not work well.
 				// See also JENKINS-212 on jira.catrob.at
 				sh "if [ -f '$JACOCO_UNIT_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_UNIT_XML > $JAVA_SRC/coverage1.xml; fi"
-				// ensure that the following test run does not overwrite the results
-				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build ${env.GRADLE_PROJECT_MODULE_NAME}/build-unittest"
-
-				// Run device tests
-				sh './gradlew -PenableCoverage -Pjenkins clean startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
-				// Convert the JaCoCo coverate to the Cobertura XML file format.
-				// This is done since the Jenkins JaCoCo plugin does not work well.
-				// See also JENKINS-212 on jira.catrob.at
-				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
 			}
-
 			post {
 				always {
 					junit '**/*TEST*.xml'
 					step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
-
-					sh './gradlew stopEmulator'
-					archiveArtifacts 'logcat.txt'
-
-					plot csvFileName: 'dexcount.csv', csvSeries: [[displayTableFlag: false, exclusionValues: '', file: 'Paintroid/build/outputs/dexcount/*.csv', inclusionFlag: 'OFF', url: '']], group: 'APK Stats', numBuilds: '180', style: 'line', title: 'dexcount'
-					plot csvFileName: 'apksize.csv', csvSeries: [[displayTableFlag: false, exclusionValues: 'kilobytes', file: 'Paintroid/build/outputs/apksize/*/*.csv', inclusionFlag: 'INCLUDE_BY_STRING', url: '']], group: 'APK Stats', numBuilds: '180', style: 'line', title: 'APK Size'
 				}
 			}
 		}
 
-		stage('Build Debug-APK') {
-			steps {
-				sh './gradlew clean assembleDebug'
-				archiveArtifacts "${env.APK_LOCATION_DEBUG}"
+		stage('Device Test') {
+			parallel {
+				stage('Device Test #1') {
+					agent {
+						dockerfile {
+							filename 'Dockerfile.jenkins'
+							dir 'docker'
+							additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
+							args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=5G --cpus=3.5'
+						}
+					}
+					steps {
+						cleanWs()
+						unstash 'src'
+
+						writeFile file: 'testexclusions.txt', text: testSplits[0].join('\n')
+
+						// Run device tests
+						sh './gradlew -PenableCoverage -Pjenkins clean startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
+						// Convert the JaCoCo coverate to the Cobertura XML file format.
+						// This is done since the Jenkins JaCoCo plugin does not work well.
+						// See also JENKINS-212 on jira.catrob.at
+						sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage.xml; fi"
+					}
+					post {
+						always {
+							junit '**/*TEST*.xml'
+							step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
+
+							sh './gradlew stopEmulator'
+							archiveArtifacts 'logcat.txt'
+						}
+					}
+				}
+				stage('Device Test #2') {
+					agent {
+						dockerfile {
+							filename 'Dockerfile.jenkins'
+							dir 'docker'
+							additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
+							args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=5G --cpus=3.5'
+						}
+					}
+					steps {
+						cleanWs()
+						unstash 'src'
+
+						writeFile file: 'testexclusions.txt', text: testSplits[1].join('\n')
+
+						// Run device tests
+						sh './gradlew -PenableCoverage -Pjenkins clean startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
+						// Convert the JaCoCo coverate to the Cobertura XML file format.
+						// This is done since the Jenkins JaCoCo plugin does not work well.
+						// See also JENKINS-212 on jira.catrob.at
+						sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage.xml; fi"
+					}
+					post {
+						always {
+							junit '**/*TEST*.xml'
+							step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
+
+							sh './gradlew stopEmulator'
+							archiveArtifacts 'logcat.txt'
+						}
+					}
+				}
 			}
 		}
 	}
