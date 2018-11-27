@@ -54,6 +54,7 @@ pipeline {
 			steps {
 			    echo "FOO"
 			    sh 'ps aux | grep gradle'
+				sh './gradlew --status'
 				sh './gradlew clean pmd checkstyle lint'
 			}
 
@@ -91,11 +92,6 @@ pipeline {
 				// This is done since the Jenkins JaCoCo plugin does not work well.
 				// See also JENKINS-212 on jira.catrob.at
 				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
-
-				script {
-					echo "#####B ${splits[0]}"
-					echo "#####B ${splits[1]}"
-				}
 			}
 
 			post {
