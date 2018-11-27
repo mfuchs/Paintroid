@@ -1,5 +1,7 @@
 #!groovy
 
+def splitsa = splitTests parallelism: count(2)
+
 pipeline {
 	agent {
 		dockerfile {
@@ -69,8 +71,9 @@ pipeline {
 				script {
 				    echo "ABCDE"
 					def splits = splitTests parallelism: count(2)
-					echo "##### $splits[0]"
-					echo "##### $splits[1]"
+					echo "##### ${splits[0]}"
+					echo "##### ${splits[1]}"
+					echo "#####A ${splitsa[0]}"
 				}
 
 				// Run local unit tests
@@ -90,9 +93,8 @@ pipeline {
 				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
 
 				script {
-					def splits = splitTests parallelism: count(2)
-					echo "#####B $splits[0]"
-					echo "#####B $splits[1]"
+					echo "#####B ${splits[0]}"
+					echo "#####B ${splits[1]}"
 				}
 			}
 
