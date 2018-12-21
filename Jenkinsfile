@@ -52,7 +52,7 @@ pipeline {
 	stages {
 		stage('Static Analysis') {
 			steps {
-				sh 'whomai'
+				sh 'whoami'
 				sh 'echo $UID'
 				sh 'id'
 				sh 'echo $HOME'
