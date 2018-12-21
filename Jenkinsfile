@@ -52,6 +52,10 @@ pipeline {
 	stages {
 		stage('Static Analysis') {
 			steps {
+				sh 'whomai'
+				sh 'echo $UID'
+				sh 'id'
+				sh 'echo $HOME'
 				sh './gradlew pmd checkstyle lint'
 			}
 
