@@ -60,54 +60,14 @@ pipeline {
 
             post {
                 always {
-                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
+                    recordIssues(tools: [androidLint(pattern: "$reports/build/reports/lint*.xml"),
+                                         checkStyle(pattern: "$reports/build/reports/checkstyle.xml"),
+                                         pmdParser(pattern: "$reports/build/reports/pmd.xml")])
+
+                    //pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
+                    //checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
+                    //androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
                 }
-            }
-        }
-
-        stage('Tests') {
-            stages {
-                stage('Unit Tests') {
-                    steps {
-                        sh './gradlew -PenableCoverage -Pjenkins jacocoTestDebugUnitTestReport'
-                    }
-                    post {
-                        always {
-                            junitAndCoverage "$reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml", 'unit', javaSrc
-                        }
-                    }
-                }
-
-                stage('Device Tests') {
-                    steps {
-                        sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
-                    }
-                    post {
-                        always {
-                            sh './gradlew stopEmulator'
-                            junitAndCoverage "$reports/coverage/debug/report.xml", 'device', javaSrc
-                            archiveArtifacts 'logcat.txt'
-                        }
-                    }
-                }
-            }
-
-            post {
-                always {
-                    step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$javaSrc/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
-
-                    plot csvFileName: 'dexcount.csv', csvSeries: [[displayTableFlag: false, exclusionValues: '', file: 'Paintroid/build/outputs/dexcount/*.csv', inclusionFlag: 'OFF', url: '']], group: 'APK Stats', numBuilds: '180', style: 'line', title: 'dexcount'
-                    plot csvFileName: 'apksize.csv', csvSeries: [[displayTableFlag: false, exclusionValues: 'kilobytes', file: 'Paintroid/build/outputs/apksize/*/*.csv', inclusionFlag: 'INCLUDE_BY_STRING', url: '']], group: 'APK Stats', numBuilds: '180', style: 'line', title: 'APK Size'
-                }
-            }
-        }
-
-        stage('Build Debug-APK') {
-            steps {
-                sh './gradlew assembleDebug'
-                archiveArtifacts debugApk
             }
         }
     }
@@ -115,7 +75,6 @@ pipeline {
     post {
         always {
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-            sendNotifications()
         }
     }
 }
