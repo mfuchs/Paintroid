@@ -1,6 +1,6 @@
 /*
  * Paintroid: An image manipulation application for Android.
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -86,6 +86,7 @@ import static org.catrobat.paintroid.common.Constants.PAINTROID_PICTURE_PATH;
 
 public class MainActivity extends AppCompatActivity implements MainActivityContracts.MainView,
 		CommandManager.CommandListener {
+	private static final String WUSA = "ADF";
 	public static final String TAG = MainActivity.class.getSimpleName();
 	private static final String IS_FULLSCREEN_KEY = "isFullscreen";
 	private static final String IS_SAVED_KEY = "isSaved";
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 	private static final String APP_FRAGMENT_KEY = "customActivityState";
 
 	@VisibleForTesting
-	public MainActivityContracts.Model model;
+	public MainActivityContracts.Model model = null;
 	private LayerPresenter layerPresenter;
 	private DrawingSurface drawingSurface;
 	private CommandManager commandManager;

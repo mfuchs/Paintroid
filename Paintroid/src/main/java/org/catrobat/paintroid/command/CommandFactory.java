@@ -22,6 +22,7 @@ package org.catrobat.paintroid.command;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Path;
+
 import android.graphics.Point;
 import android.graphics.PointF;
 
