@@ -64,9 +64,9 @@ pipeline {
 //                                         checkStyle(pattern: "$reports/build/reports/checkstyle.xml"),
 //                                         pmdParser(pattern: "$reports/build/reports/pmd.xml")])
 
-                    pmd "$reports/pmd.xml"
-                    checkstyle "$reports/checkstyle.xml"
-                    androidLint "$reports/lint*.xml"
+                    pmd pattern: "$reports/pmd.xml"
+                    checkstyle pattern: "$reports/checkstyle.xml"
+                    androidLint pattern: "$reports/lint*.xml"
                 }
             }
         }
