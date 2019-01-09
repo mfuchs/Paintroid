@@ -64,9 +64,9 @@ pipeline {
 //                                         checkStyle(pattern: "$reports/build/reports/checkstyle.xml"),
 //                                         pmdParser(pattern: "$reports/build/reports/pmd.xml")])
 
-//                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-//                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
+                    pmd "$reports/pmd.xml"
+                    checkstyle "$reports/checkstyle.xml"
+                    androidLint "$reports/lint*.xml"
                 }
             }
         }
