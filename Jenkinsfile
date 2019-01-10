@@ -41,11 +41,40 @@ pipeline {
         }
     }
 
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+    }
+
+    triggers {
+        cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
+        issueCommentTrigger('.*test this please.*')
+    }
+
     stages {
         stage('Static Analysis') {
             steps {
-                pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "pmd.xml",        unHealthy: '', unstableTotalAll: '0'
+                sh './gradlew pmd checkstyle lint'
             }
+
+            post {
+                always {
+//                    recordIssues(tools: [androidLint(pattern: "$reports/build/reports/lint*.xml"),
+//                                         checkStyle(pattern: "$reports/build/reports/checkstyle.xml"),
+//                                         pmdParser(pattern: "$reports/build/reports/pmd.xml")])
+
+                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
+                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
+                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
         }
     }
 }
