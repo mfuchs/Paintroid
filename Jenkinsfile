@@ -27,7 +27,6 @@ pipeline {
     stages {
         stage('Static Analysis') {
             steps {
-                git branch: 'JENKINS-278_2', url: 'https://github.com/mfuchs/Paintroid.git'
                 pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "pmd.xml",        unHealthy: '', unstableTotalAll: '0'
             }
         }
