@@ -1,24 +1,7 @@
 #!groovy
 
 pipeline {
-    agent {
-        dockerfile {
-            filename 'Dockerfile.jenkins'
-            // 'docker build' would normally copy the whole build-dir to the container, changing the
-            // docker build directory avoids that overhead
-            dir 'docker'
-            // Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
-            // corresponding user can be added. This is needed to provide the jenkins user inside
-            // the container for the ssh-agent to work.
-            // Another way would be to simply map the passwd file, but would spoil additional information
-            // Also hand in the group id of kvm to allow using /dev/kvm.
-            additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
-            // Ensure that each executor has its own gradle cache to not affect other builds
-            // that run concurrently.
-            args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=7G --cpus=3.5'
-            label 'LimitedEmulator'
-        }
-    }
+    agent any
 
     stages {
         stage('Static Analysis') {
