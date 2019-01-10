@@ -23,7 +23,7 @@ pipeline {
     stages {
         stage('Static Analysis') {
             steps {
-                    sh 'Hello World!'
+                    echo 'Hello World!'
                     pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "pmd.xml",        unHealthy: '', unstableTotalAll: '0'
                     checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
 //                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
