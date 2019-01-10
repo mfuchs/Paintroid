@@ -1,26 +1,5 @@
 #!groovy
 
-def reports = 'Paintroid/build/reports'
-
-// place the cobertura xml relative to the source, so that the source can be found
-def javaSrc = 'Paintroid/src/main/java'
-
-def debugApk = 'app/build/outputs/apk/debug/app-debug.apk'
-
-def junitAndCoverage(String jacocoXmlFile, String coverageName, String javaSrcLocation) {
-    // Consume all test xml files. Otherwise tests would be tracked multiple
-    // times if this function was called again.
-    String testPattern = '**/*TEST*.xml'
-    junit testResults: testPattern, allowEmptyResults: true
-    cleanWs patterns: [[pattern: testPattern, type: 'INCLUDE']]
-
-    String coverageFile = "$javaSrcLocation/coverage_${coverageName}.xml"
-    // Convert the JaCoCo coverate to the Cobertura XML file format.
-    // This is done since the Jenkins JaCoCo plugin does not work well.
-    // See also JENKINS-212 on jira.catrob.at
-    sh "./buildScripts/cover2cover.py '$jacocoXmlFile' '$coverageFile'"
-}
-
 pipeline {
     agent {
         dockerfile {
@@ -41,23 +20,13 @@ pipeline {
         }
     }
 
-    options {
-        timeout(time: 2, unit: 'HOURS')
-        timestamps()
-        buildDiscarder(logRotator(numToKeepStr: '30'))
-    }
-
-    triggers {
-        cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
-        issueCommentTrigger('.*test this please.*')
-    }
-
     stages {
         stage('Static Analysis') {
             steps {
-                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
+                    sh 'Hello World!'
+                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "pmd.xml",        unHealthy: '', unstableTotalAll: '0'
+                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
+//                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "$reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
             }
 
 //            post {
@@ -68,12 +37,6 @@ pipeline {
 //
 //                }
 //            }
-        }
-    }
-
-    post {
-        always {
-            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
         }
     }
 }
