@@ -115,7 +115,9 @@ pipeline {
     post {
         always {
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-            sendNotifications()
+        }
+        changed {
+            notifyChat()
         }
     }
 }
