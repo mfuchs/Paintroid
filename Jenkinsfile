@@ -133,13 +133,13 @@ pipeline {
                     }
 
                     steps {
-                        writeFile file: 'testexclusions.txt', text: testSet.join('\n')
+                        writeFile file: 'testexclusions.txt', text: testSet[0].join('\n')
                         sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
                     }
                     post {
                         always {
                             sh './gradlew stopEmulator'
-                            junitAndCoverage "$reports/coverage/debug/report.xml", "device1", javaSrc
+                            junitAndCoverage "$reports/coverage/debug/report.xml", "device0", javaSrc
                             archiveArtifacts 'logcat.txt'
                         }
                     }
@@ -156,7 +156,7 @@ pipeline {
                     }
 
                     steps {
-                        writeFile file: 'testexclusions.txt', text: testSet.join('\n')
+                        writeFile file: 'testexclusions.txt', text: testSet[1].join('\n')
                         sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
                     }
                     post {
@@ -179,13 +179,13 @@ pipeline {
                     }
 
                     steps {
-                        writeFile file: 'testexclusions.txt', text: testSet.join('\n')
+                        writeFile file: 'testexclusions.txt', text: testSet[2].join('\n')
                         sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
                     }
                     post {
                         always {
                             sh './gradlew stopEmulator'
-                            junitAndCoverage "$reports/coverage/debug/report.xml", "device1", javaSrc
+                            junitAndCoverage "$reports/coverage/debug/report.xml", "device2", javaSrc
                             archiveArtifacts 'logcat.txt'
                         }
                     }
