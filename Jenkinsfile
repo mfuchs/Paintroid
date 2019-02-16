@@ -25,7 +25,7 @@ class DockerParameters {
 
 def d = new DockerParameters()
 
-def TESTS = splitTests count(3)
+def partitionedTests = splitTests count(3)
 
 def reports = 'Paintroid/build/reports'
 
@@ -121,28 +121,27 @@ pipeline {
                     }
                 }
 
-                stage('Tests') {
-                    agent {
-                        dockerfile {
-                            filename d.fileName
-                            dir d.dir
-                            additionalBuildArgs d.buildArgs
-                            args d.args
-                            label d.label
-                        }
-                    }
-
-                    stages {
-                        stage('Device Tests') {
-                            steps {
-                                sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
+                partitionedTests.eachWithIndex{ testSet, i ->
+                    stage("Device Tests $i") {
+                        agent {
+                            dockerfile {
+                                filename d.fileName
+                                dir d.dir
+                                additionalBuildArgs d.buildArgs
+                                args d.args
+                                label d.label
                             }
-                            post {
-                                always {
-                                    sh './gradlew stopEmulator'
-                                    junitAndCoverage "$reports/coverage/debug/report.xml", 'device', javaSrc
-                                    archiveArtifacts 'logcat.txt'
-                                }
+                        }
+
+                        steps {
+                            writeFile file: 'testexclusions.txt', text: testSet.join('\n')
+                            sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
+                        }
+                        post {
+                            always {
+                                sh './gradlew stopEmulator'
+                                junitAndCoverage "$reports/coverage/debug/report.xml", "device$i", javaSrc
+                                archiveArtifacts 'logcat.txt'
                             }
                         }
                     }
@@ -163,7 +162,9 @@ pipeline {
 
             steps {
                 unstash 'coverage_unit'
-                unstash 'coverage_device'
+                for (int i = 0; i < partitionedTests.size(); ++i) {
+                    unstash "coverage_device${i}"
+                }
                 step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$javaSrc/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
             }
         }
