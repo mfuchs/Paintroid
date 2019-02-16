@@ -80,7 +80,7 @@ pipeline {
                     stages {
                         stage('Build Debug-APK') {
                             steps {
-                                echo "#### TESTS: $TESTS"
+                                echo "#### TESTS: $partitionedTests"
                                 sh './gradlew assembleDebug'
                                 archiveArtifacts debugApk
                                 plot csvFileName: 'dexcount.csv', csvSeries: [[displayTableFlag: false, exclusionValues: '', file: 'Paintroid/build/outputs/dexcount/*.csv', inclusionFlag: 'OFF', url: '']], group: 'APK Stats', numBuilds: '180', style: 'line', title: 'dexcount'
