@@ -1,5 +1,7 @@
 #!groovy
 
+// TODO when there are no excludes yet (i.e. first run) only run one job and nothing in parallel
+
 class DockerParameters {
     def fileName = 'Dockerfile.jenkins'
 
@@ -12,7 +14,7 @@ class DockerParameters {
     // the container for the ssh-agent to work.
     // Another way would be to simply map the passwd file, but would spoil additional information
     // Also hand in the group id of kvm to allow using /dev/kvm.
-    def additionalBuildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
+    def buildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
 
     // Ensure that each executor has its own gradle cache to not affect other builds
     // that run concurrently.
