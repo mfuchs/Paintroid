@@ -121,28 +121,72 @@ pipeline {
                     }
                 }
 
-                partitionedTests.eachWithIndex{ testSet, i ->
-                    stage("Device Tests $i") {
-                        agent {
-                            dockerfile {
-                                filename d.fileName
-                                dir d.dir
-                                additionalBuildArgs d.buildArgs
-                                args d.args
-                                label d.label
-                            }
+                stage("Device Tests 1") {
+                    agent {
+                        dockerfile {
+                            filename d.fileName
+                            dir d.dir
+                            additionalBuildArgs d.buildArgs
+                            args d.args
+                            label d.label
                         }
+                    }
 
-                        steps {
-                            writeFile file: 'testexclusions.txt', text: testSet.join('\n')
-                            sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
+                    steps {
+                        writeFile file: 'testexclusions.txt', text: testSet.join('\n')
+                        sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
+                    }
+                    post {
+                        always {
+                            sh './gradlew stopEmulator'
+                            junitAndCoverage "$reports/coverage/debug/report.xml", "device1", javaSrc
+                            archiveArtifacts 'logcat.txt'
                         }
-                        post {
-                            always {
-                                sh './gradlew stopEmulator'
-                                junitAndCoverage "$reports/coverage/debug/report.xml", "device$i", javaSrc
-                                archiveArtifacts 'logcat.txt'
-                            }
+                    }
+                }
+                stage("Device Tests 2") {
+                    agent {
+                        dockerfile {
+                            filename d.fileName
+                            dir d.dir
+                            additionalBuildArgs d.buildArgs
+                            args d.args
+                            label d.label
+                        }
+                    }
+
+                    steps {
+                        writeFile file: 'testexclusions.txt', text: testSet.join('\n')
+                        sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
+                    }
+                    post {
+                        always {
+                            sh './gradlew stopEmulator'
+                            junitAndCoverage "$reports/coverage/debug/report.xml", "device1", javaSrc
+                            archiveArtifacts 'logcat.txt'
+                        }
+                    }
+                }
+                stage("Device Tests 3") {
+                    agent {
+                        dockerfile {
+                            filename d.fileName
+                            dir d.dir
+                            additionalBuildArgs d.buildArgs
+                            args d.args
+                            label d.label
+                        }
+                    }
+
+                    steps {
+                        writeFile file: 'testexclusions.txt', text: testSet.join('\n')
+                        sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
+                    }
+                    post {
+                        always {
+                            sh './gradlew stopEmulator'
+                            junitAndCoverage "$reports/coverage/debug/report.xml", "device1", javaSrc
+                            archiveArtifacts 'logcat.txt'
                         }
                     }
                 }
@@ -162,8 +206,10 @@ pipeline {
 
             steps {
                 unstash 'coverage_unit'
-                for (int i = 0; i < partitionedTests.size(); ++i) {
-                    unstash "coverage_device${i}"
+                script {
+                    for (int i = 0; i < partitionedTests.size(); ++i) {
+                        unstash "coverage_device${i}"
+                    }
                 }
                 step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$javaSrc/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
             }
