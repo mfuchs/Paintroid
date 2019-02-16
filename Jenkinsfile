@@ -5,14 +5,14 @@ class DockerParameters {
 
     // 'docker build' would normally copy the whole build-dir to the container, changing the
     // docker build directory avoids that overhead
-    def = dir 'docker'
+    def dir = 'docker'
 
     // Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
     // corresponding user can be added. This is needed to provide the jenkins user inside
     // the container for the ssh-agent to work.
     // Another way would be to simply map the passwd file, but would spoil additional information
     // Also hand in the group id of kvm to allow using /dev/kvm.
-    def = additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
+    def additionalBuildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
 
     // Ensure that each executor has its own gradle cache to not affect other builds
     // that run concurrently.
