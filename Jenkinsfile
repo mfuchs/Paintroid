@@ -25,6 +25,8 @@ class DockerParameters {
 
 def d = new DockerParameters()
 
+def TESTS = splitTests count(3)
+
 def reports = 'Paintroid/build/reports'
 
 // place the cobertura xml relative to the source, so that the source can be found
@@ -78,6 +80,7 @@ pipeline {
                     stages {
                         stage('Build Debug-APK') {
                             steps {
+                                echo "#### TESTS: $TESTS"
                                 sh './gradlew assembleDebug'
                                 archiveArtifacts debugApk
                                 plot csvFileName: 'dexcount.csv', csvSeries: [[displayTableFlag: false, exclusionValues: '', file: 'Paintroid/build/outputs/dexcount/*.csv', inclusionFlag: 'OFF', url: '']], group: 'APK Stats', numBuilds: '180', style: 'line', title: 'dexcount'
