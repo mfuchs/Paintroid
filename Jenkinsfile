@@ -133,7 +133,7 @@ pipeline {
                     }
 
                     steps {
-                        writeFile file: 'testexclusions.txt', text: testSet[0].join('\n')
+                        writeFile file: 'testexclusions.txt', text: partitionedTests[0].join('\n')
                         sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
                     }
                     post {
@@ -156,7 +156,7 @@ pipeline {
                     }
 
                     steps {
-                        writeFile file: 'testexclusions.txt', text: testSet[1].join('\n')
+                        writeFile file: 'testexclusions.txt', text: partitionedTests[1].join('\n')
                         sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
                     }
                     post {
@@ -179,7 +179,7 @@ pipeline {
                     }
 
                     steps {
-                        writeFile file: 'testexclusions.txt', text: testSet[2].join('\n')
+                        writeFile file: 'testexclusions.txt', text: partitionedTests[2].join('\n')
                         sh './gradlew -PenableCoverage -Pjenkins startEmulator adbDisableAnimationsGlobally createDebugCoverageReport'
                     }
                     post {
